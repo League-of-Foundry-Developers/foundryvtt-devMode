@@ -1,0 +1,36 @@
+{
+  "name": "dev-mode",
+  "title": "Developer Mode",
+  "description": "Enables developers to do developer things.",
+  "version": "0.1.0",
+  "author": "Andrew Krigline (akrigline)",
+  "authors": [
+    {
+      "name": "Andrew Krigline",
+      "discord": "Calego#0914",
+      "url": "https://github.com/ElfFriend-DnD",
+      "patreon": "https://www.patreon.com/ElfFriend_DnD"
+    }
+  ],
+  "esmodules": [
+    "foundryvtt-devMode.js"
+  ],
+  "styles": [
+    "foundryvtt-devMode.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "minimumCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.7.9",
+  "bugs": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/issues",
+  "changelog": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases",
+  "download": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/download/v1.2.0/module.zip",
+  "manifest": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/latest/download/module.json",
+  "readme": "https://raw.githubusercontent.com/ElfFriend-DnD/foundryvtt-confetti/main/README.md",
+  "url": "https://github.com/ElfFriend-DnD/foundryvtt-confetti"
+}
