@@ -8,11 +8,25 @@ export function log(force: boolean, ...args) {
 }
 
 export function setDebugOverrides() {
+  if (!game.settings.get(MODULE_ID, MySettings.overrideConfigDebug)) {
+    log(false, 'doing nothing in setDebugOverrides');
+    return;
+  }
+
+  const debugOverrideSettings = game.settings.get(MODULE_ID, MySettings.debugOverrides);
+
   // set all debug values to match settings
   Object.keys(CONFIG.debug).forEach((debugKey) => {
-    if (game.settings.get(MODULE_ID, MySettings.debugOverrides).debugKey !== undefined) {
-      CONFIG.debug[debugKey] = game.settings.get(MODULE_ID, MySettings.debugOverrides).debugKey;
+    const relevantSetting = debugOverrideSettings[debugKey];
+
+    if (relevantSetting !== undefined) {
+      CONFIG.debug[debugKey] = relevantSetting;
     }
+
+    log(false, 'setDebugOverride', {
+      relevant: relevantSetting,
+      after: CONFIG.debug[debugKey],
+    });
   });
 }
 

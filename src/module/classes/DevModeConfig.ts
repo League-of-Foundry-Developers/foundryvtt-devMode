@@ -130,6 +130,7 @@ export class DevModeConfig extends FormApplication {
 
     const newDebugOverrides = {
       ...debugOverrides,
+      ...data.debugOverrideSettings,
     };
 
     log(true, 'setting settings', {
