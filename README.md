@@ -20,7 +20,7 @@ A swiss army knife for development tooling in Foundry VTT.
 Module JSON:
 
 ```
-https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/latest/download/module.json
+https://github.com/ElfFriend-DnD/foundryvtt-devMode/releases/latest/download/module.json
 ```
 
 ## Configuration
