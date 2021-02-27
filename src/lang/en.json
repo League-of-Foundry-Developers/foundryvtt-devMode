@@ -1,0 +1,45 @@
+{
+  "DEV": {
+    "configMenu": {
+      "FormTitle": "Module Specific Debug Flags",
+      "ConfigDebug": "CONFIG.debug Overrides",
+      "ModuleSpecific": "Module Specific Debugging"
+    },
+    "settings": {
+      "config-menu": {
+        "Name": "Debug Flag Config",
+        "Label": "Debug Flags",
+        "Hint": "Every core debug flag and modules you have activated might register flags for their own debugging which you can toggle here."
+      },
+      "override-config-debug": {
+        "Name": "Override CONFIG.debug?",
+        "Hint": "Whether or not to use any of the checkboxes below regarding CONFIG.debug flags. Setting to false will cause a reload."
+      },
+      "fog": {
+        "Name": "Fog"
+      },
+      "hooks": {
+        "Name": "Hooks",
+        "Hint": "Whether or not to use any of the checkboxes below regarding CONFIG.debug flags. Setting to false will cause a reload."
+      },
+      "sight": {
+        "Name": "Sight"
+      },
+      "sightRays": {
+        "Name": "Sight Rays"
+      },
+      "av": {
+        "Name": "AV"
+      },
+      "avclient": {
+        "Name": "AV Client"
+      },
+      "mouseInteraction": {
+        "Name": "Mouse Interactions"
+      },
+      "time": {
+        "Name": "Time"
+      }
+    }
+  }
+}

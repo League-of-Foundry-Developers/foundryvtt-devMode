@@ -1,0 +1,65 @@
+{{!-- From Foundry Core settings-config.html --}}
+{{#*inline "settingPartial"}}
+<div class="form-group">
+  <label for="{{scope}}.{{this.key}}">{{this.name}}</label>
+  <div class="form-fields">
+
+    {{#if this.isCheckbox}}
+    <input type="checkbox" name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}" data-dtype="Boolean" {{checked
+      this.value}} />
+
+    {{else if this.isSelect}}
+    <select name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}">
+      {{#select this.value}}
+      {{#each this.choices as |name k|}}
+      <option value="{{k}}">{{localize name}}</option>
+      {{/each}}
+      {{/select}}
+    </select>
+
+    {{else if this.isRange}}
+    <input type="range" name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}" data-dtype="Number"
+      value="{{ this.value }}" min="{{ this.range.min }}" max="{{ this.range.max }}" step="{{ this.range.step }}" />
+    <span class="range-value">{{this.value}}</span>
+
+    {{else}}
+    <input type="text" name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}" value="{{this.value}}"
+      data-dtype="{{this.type}}" />
+    {{/if}}
+  </div>
+
+  <p class="notes">{{this.hint}}</p>
+</div>
+{{/inline}}
+
+<form class="{{classes}}" autocomplete="off">
+
+  {{log 'settings' this}}
+  <div>
+    <h2>{{localize 'DEV.configMenu.FormTitle'}}</h2>
+
+    <nav class="sheet-tabs tabs">
+      <a class='item' data-tab='config'>{{localize 'DEV.configMenu.ConfigDebug'}}</a>
+      <a class='item' data-tab='modules'>{{localize 'DEV.configMenu.ModuleSpecific'}}</a>
+    </nav>
+
+    <section class='tab' data-tab='config'>
+      {{#each debugOverrideSettings}}
+      {{> settingPartial scope="debugOverrideSettings"}}
+      {{else}}
+      <p class="notes">{{localize 'SETTINGS.None'}}</p>
+      {{/each}}
+    </section>
+
+    <section class='tab' data-tab='modules'>
+      {{#each moduleSpecificDebugSettings}}
+      {{> settingPartial}}
+      {{else}}
+      <p class="notes">{{localize 'SETTINGS.None'}}</p>
+      {{/each}}
+    </section>
+  </div>
+
+  <button type='submit'>{{localize 'Save Changes'}}</button>
+
+</form>
