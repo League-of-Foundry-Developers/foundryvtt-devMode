@@ -1,7 +1,7 @@
 {
   "DEV": {
     "configMenu": {
-      "FormTitle": "Module Specific Debug Flags",
+      "FormTitle": "Debug Flag Config",
       "ConfigDebug": "CONFIG.debug Overrides",
       "ModuleSpecific": "Module Specific Debugging"
     },
