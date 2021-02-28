@@ -33,5 +33,6 @@
   "manifest": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/latest/download/module.json",
   "readme": "https://raw.githubusercontent.com/ElfFriend-DnD/foundryvtt-confetti/main/README.md",
   "url": "https://github.com/ElfFriend-DnD/foundryvtt-confetti",
-  "allowBugReporter": true
+  "allowBugReporter": true,
+  "library": true
 }

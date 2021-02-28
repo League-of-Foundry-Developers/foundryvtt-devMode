@@ -7,8 +7,17 @@ export const TEMPLATES = {
 
 export enum MySettings {
   overrideConfigDebug = 'override-config-debug',
-  moduleSpecificDebug = 'module-specific-debug',
+  packageSpecificDebug = 'package-specific-debug',
   debugOverrides = 'debug-overrides',
 }
 
 export enum MyFlags {}
+
+export enum LogLevel {
+  NONE = 0,
+  INFO = 1,
+  ERROR = 2,
+  DEBUG = 3,
+  WARN = 4,
+  ALL = 5,
+}

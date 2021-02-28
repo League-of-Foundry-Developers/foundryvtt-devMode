@@ -3,6 +3,8 @@ import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES } from './module/consta
 import { registerSettings } from './module/settings.js';
 import { log, setDebugOverrides } from './module/helpers';
 
+Handlebars.registerHelper('dev-concat', (...args) => args.join(''));
+
 /* ------------------------------------ */
 /* Initialize module					*/
 /* ------------------------------------ */
@@ -13,11 +15,10 @@ Hooks.once('init', async function () {
 
   // Register custom module settings
   registerSettings();
+  setDebugOverrides();
 
   // Preload Handlebars templates
   await loadTemplates(Object.values(flattenObject(TEMPLATES)));
 });
 
-Hooks.once('ready', () => {
-  setDebugOverrides();
-});
+Hooks.once('ready', () => {});

@@ -1,4 +1,5 @@
-import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES } from '../constants';
+import { ModuleSpecificDebugFlag } from '../../devModeTypes';
+import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants';
 import { log, setDebugOverrides, localizeWithFallback } from '../helpers';
 
 export class DevModeConfig extends FormApplication {
@@ -14,7 +15,7 @@ export class DevModeConfig extends FormApplication {
     });
 
     // register the setting where we'll store all module specific debug flags
-    game.settings.register(MODULE_ID, MySettings.moduleSpecificDebug, {
+    game.settings.register(MODULE_ID, MySettings.packageSpecificDebug, {
       default: {},
       type: Object,
       scope: 'client',
@@ -78,7 +79,10 @@ export class DevModeConfig extends FormApplication {
   }
 
   get moduleSpecificDebug() {
-    return game.settings.get(MODULE_ID, MySettings.moduleSpecificDebug);
+    return game.settings.get(MODULE_ID, MySettings.packageSpecificDebug) as Record<
+      string,
+      ModuleSpecificDebugFlag<'boolean'> | ModuleSpecificDebugFlag<'level'>
+    >;
   }
 
   get debugOverrides() {
@@ -103,18 +107,86 @@ export class DevModeConfig extends FormApplication {
       }
     });
 
+    const moduleSpecificDebugSettings = Object.keys(this.moduleSpecificDebug).reduce((acc, moduleFlagKey) => {
+      try {
+        const flag = this.moduleSpecificDebug[moduleFlagKey];
+
+        if (!flag) {
+          throw Error(`Error retreiving module specific debug settings for ${moduleFlagKey}`);
+        }
+
+        const relevantFlag = DevModeConfig.getPackageDebug(flag.packageName, flag.kind);
+
+        let relevantPackageData;
+
+        if (game.system.id === relevantFlag.packageName) {
+          relevantPackageData = game.system;
+        } else {
+          relevantPackageData = game.modules.get(relevantFlag.packageName).data as { title?: string; name: string };
+        }
+
+        log(false, 'moduleSpecificDebugSetting', {
+          moduleFlagKey,
+          moduleSpecificDebug: this.moduleSpecificDebug,
+          relevantFlag,
+          relevantPackageData,
+        });
+
+        // every package gets 1 logLevel OR 1 boolean flag
+        switch (relevantFlag.kind) {
+          case 'boolean': {
+            acc[flag.packageName] = {
+              name: game.i18n.format(`${MODULE_ID}.configMenu.DebugMode`, {
+                package: `${relevantPackageData.title ?? relevantPackageData.name}`,
+              }),
+              value: relevantFlag.value,
+              scope: 'moduleSpecificDebug',
+              key: moduleFlagKey,
+              isCheckbox: true,
+            };
+            break;
+          }
+          case 'level': {
+            acc[flag.packageName] = {
+              name: game.i18n.format(`${MODULE_ID}.configMenu.LogLevel`, {
+                package: `${relevantPackageData.title ?? relevantPackageData.name}`,
+              }),
+              value: relevantFlag.value,
+              key: moduleFlagKey,
+              scope: 'moduleSpecificDebug',
+              min: LogLevel.NONE,
+              max: LogLevel.ALL,
+              isRange: true,
+            };
+            break;
+          }
+          default: {
+            throw Error(`Did not register flag for unknown flag kind.`);
+          }
+        }
+
+        return acc;
+      } catch (e) {
+        log(true, e);
+        return acc;
+      }
+    }, {});
+
     const data = {
       ...super.getData(),
-      moduleSpecificDebugSettings: this.moduleSpecificDebug,
+      moduleSpecificDebugSettings: moduleSpecificDebugSettings,
       debugOverrideSettings: debugOverrideSettings,
     };
 
-    log(false, data);
+    log(false, data, {
+      debugOverrides: this.debugOverrides,
+      moduleSpecificDebug: this.moduleSpecificDebug,
+    });
     return data;
   }
 
   async _updateObject(ev, formData) {
-    const moduleSpecificDebug = game.settings.get(MODULE_ID, MySettings.moduleSpecificDebug);
+    const moduleSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
     const debugOverrides = game.settings.get(MODULE_ID, MySettings.debugOverrides);
 
     const data = expandObject(formData);
@@ -124,7 +196,7 @@ export class DevModeConfig extends FormApplication {
       data,
     });
 
-    const newModuleSpecificDebug = {
+    const newPackageSpecificDebug = {
       ...moduleSpecificDebug,
     };
 
@@ -134,13 +206,93 @@ export class DevModeConfig extends FormApplication {
     };
 
     log(true, 'setting settings', {
-      newModuleSpecificDebug,
+      newPackageSpecificDebug,
       newDebugOverrides,
     });
 
-    await game.settings.set(MODULE_ID, MySettings.moduleSpecificDebug, newModuleSpecificDebug);
+    await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
     await game.settings.set(MODULE_ID, MySettings.debugOverrides, newDebugOverrides);
 
     this.close();
+  }
+
+  /**
+   * Register a new module specific debug flag
+   *
+   * @param {string} package   The namespace under which the flag is registered
+   * @param {'boolean' | 'level'} kind      The kind of debug flag
+   * @param {Object} options     Configuration for setting data
+   * @param {boolean | LogLevel} options.default     Default value for this flag
+   *
+   * @example
+   * // Register a boolean flag
+   * DevModeConfig.registerPackageDebugFlag("myPackage", "boolean", {
+   *   default: false,
+   * });
+   *
+   * @example
+   * // Register a log level
+   * DevModeConfig.registerPackageDebugFlag("myPackage", "level", {
+   *   default: 0,
+   * });
+   */
+  static async registerPackageDebugFlag(
+    packageName: string,
+    kind: 'boolean' | 'level',
+    options?: {
+      default?: boolean | LogLevel;
+    }
+  ) {
+    if (!packageName || !kind) {
+      throw new Error('You must specify both package and kind portions of the debugFlag');
+    }
+
+    if (kind === 'boolean' && options?.default && typeof options.default !== 'boolean') {
+      throw new Error(`A boolean flag must have a boolean default, you provided a ${typeof options.default}`);
+    }
+
+    if (kind === 'level' && options?.default && typeof options.default !== 'number') {
+      throw new Error(`A level flag must have a LogLevel default, you provided a ${typeof options.default}`);
+    }
+
+    const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
+
+    const newPackageSpecificDebug = {
+      ...packageSpecificDebug,
+      [`${packageName}.${kind}`]: {
+        packageName,
+        kind,
+        value: options?.default ?? kind === 'boolean' ? false : LogLevel.NONE,
+      },
+    };
+
+    return await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
+  }
+
+  /**
+   * Get a package specific debug field
+   *
+   * @param {string} packageName   The namespace under which the flag is registered
+   * @param {'boolean' | 'level'} kind      The kind of debug flag
+   *
+   * @example
+   * // Get a boolean flag
+   * const isDebugging = DevModeConfig.getPackageDebug("myPackage", "boolean");
+   *
+   * @example
+   * // Get a log level
+   * const debugLevel = DevModeConfig.getPackageDebug("myPackage", "level");
+   */
+  static getPackageDebug(packageName: string, type: 'boolean' | 'level') {
+    const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
+
+    let relevantFlag: ModuleSpecificDebugFlag<'boolean'> | ModuleSpecificDebugFlag<'level'> =
+      packageSpecificDebug[`${packageName}.${type}`];
+
+    if (!relevantFlag) {
+      throw new Error(`${packageName} does not have a ${type} debug flag registered`);
+    }
+
+    return relevantFlag;
   }
 }

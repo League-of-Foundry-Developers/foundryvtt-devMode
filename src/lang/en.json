@@ -3,7 +3,9 @@
     "configMenu": {
       "FormTitle": "Debug Flag Config",
       "ConfigDebug": "CONFIG.debug Overrides",
-      "ModuleSpecific": "Module Specific Debugging"
+      "ModuleSpecific": "Module Specific Debugging",
+      "LogLevel": "Select Log Level for {package}",
+      "DebugMode": "Enable Debug Mode for {package}"
     },
     "settings": {
       "config-menu": {
@@ -20,7 +22,7 @@
       },
       "hooks": {
         "Name": "Hooks",
-        "Hint": "Whether or not to use any of the checkboxes below regarding CONFIG.debug flags. Setting to false will cause a reload."
+        "Hint": "Turning this on will console log all hooks as they fire while you interact with the Foundry UI."
       },
       "sight": {
         "Name": "Sight"
@@ -40,6 +42,14 @@
       "time": {
         "Name": "Time"
       }
+    },
+    "LogLevels": {
+      "0": "OFF",
+      "1": "INFO",
+      "2": "ERROR",
+      "3": "DEBUG",
+      "4": "WARN",
+      "5": "ALL"
     }
   }
 }
