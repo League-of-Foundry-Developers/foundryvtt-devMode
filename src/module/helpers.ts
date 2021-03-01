@@ -36,8 +36,6 @@ export function localizeWithFallback(debugKey: keyof typeof CONFIG['debug'], tra
   const localizationKey = `${MODULE_ABBREV}.settings.${debugKey}.${translation}`;
   const hasTranslation = game.i18n.has(localizationKey);
 
-  log(false, 'settingNameWithFallback', { debugKey, hasTranslation });
-
   if (hasTranslation) {
     return game.i18n.localize(localizationKey);
   }

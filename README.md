@@ -9,11 +9,19 @@
 
 A swiss army knife for development tooling in Foundry VTT.
 
+## Features
+
+- Provides a UI to toggle any Foundry Core CONFIG.debug flags, persisting the selection in the user's client settings.
+- Provides an API to register and read a "debug mode flag" which is either a boolean or a number from 0 to 5 (log level).
+- Provides a UI to toggle these flags on and off, preserving this selection in the user's client settings.
+
+### Goal
+Enable developers to stop putting debug code in their module code which accidentally gets shipped.
+
 ## TODO
 
-1. Allow Modules to register and read a logging level.
-2. Allow developers to set a setting for which CONFIG.debug options they want on.
-3. Leverage the potential future `CONFIG.debug.moduleDebug` flag.
+1. Leverage the potential future `CONFIG.debug.moduleDebug` flag.
+1. Implement other developer tooling. Have an idea? [Leave a suggestion!]()
 
 ## Installation
 
@@ -25,14 +33,42 @@ https://github.com/ElfFriend-DnD/foundryvtt-devMode/releases/latest/download/mod
 
 ## Configuration
 
-| **Name** | Description |
-| -------- | ----------- |
-|          |             |
+| **Name**               | Description                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| Override CONFIG.debug? | Whether or not to use the dev-mode override settings for CONFIG.debug flags. |
 
 
 ## API
 
-After the hook `devModeReady` is fired, the following api methods are expected to be on `globalThis`:
+While active, after the hook `devModeReady` is fired, the following api methods are expected to be on `window.DEV`:
+
+### `registerPackageDebugFlag`
+
+```ts
+async registerPackageDebugFlag(
+  packageName: string,
+  kind?: 'boolean' | 'level',
+  options?: {
+    default?: boolean | LogLevel;
+  }
+): Promise<boolean>
+```
+
+- `kind` defaults to `'boolean'`
+- `options.default` is either `false` or `0` by default, depending on the `kind`
+- Returns a promise which resolves true or false depending on if successful.
+
+### `getPackageDebug`
+
+```ts
+getPackageDebug(
+  packageName: string,
+  kind?: 'boolean' | 'level',
+): boolean | LogLevel
+```
+
+- `kind` defaults to `'boolean'`
+- Returns the current value of your debug flag
 
 
 

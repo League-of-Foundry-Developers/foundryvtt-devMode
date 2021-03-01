@@ -1,4 +1,4 @@
-export const MODULE_ID = 'dev-mode';
+export const MODULE_ID = '_dev-mode';
 export const MODULE_ABBREV = 'DEV';
 
 export const TEMPLATES = {

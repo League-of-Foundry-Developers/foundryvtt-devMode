@@ -3,9 +3,10 @@
     "configMenu": {
       "FormTitle": "Debug Flag Config",
       "ConfigDebug": "CONFIG.debug Overrides",
-      "ModuleSpecific": "Module Specific Debugging",
-      "LogLevel": "Select Log Level for {package}",
-      "DebugMode": "Enable Debug Mode for {package}"
+      "PackageSpecific": "Package Specific Debugging",
+      "LogLevel": "Select Log Level",
+      "DebugMode": "Enable Debug Mode",
+      "Hint": "Packages can register a debug mode setting which will appear below. Checking it or setting a log level will enable more detailed output in the console."
     },
     "settings": {
       "config-menu": {
@@ -15,7 +16,7 @@
       },
       "override-config-debug": {
         "Name": "Override CONFIG.debug?",
-        "Hint": "Whether or not to use any of the checkboxes below regarding CONFIG.debug flags. Setting to false will cause a reload."
+        "Hint": "Whether or not to use the dev-mode override settings for CONFIG.debug flags. Setting to false will cause a reload."
       },
       "fog": {
         "Name": "Fog"
@@ -44,12 +45,12 @@
       }
     },
     "LogLevels": {
-      "0": "OFF",
-      "1": "INFO",
-      "2": "ERROR",
-      "3": "DEBUG",
-      "4": "WARN",
-      "5": "ALL"
+      "0": "0 - OFF",
+      "1": "1 - INFO",
+      "2": "2 - ERROR",
+      "3": "3 - DEBUG",
+      "4": "4 - WARN",
+      "5": "5 - ALL"
     }
   }
 }
