@@ -30,10 +30,7 @@ export function setDebugOverrides() {
       CONFIG.debug[debugKey] = relevantSetting;
     }
 
-    log(false, 'setDebugOverride', debugKey, {
-      relevant: relevantSetting,
-      after: CONFIG.debug[debugKey],
-    });
+    log(false, 'setDebugOverride', debugKey, 'to', relevantSetting);
   });
 }
 

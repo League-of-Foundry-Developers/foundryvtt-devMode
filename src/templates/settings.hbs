@@ -9,7 +9,7 @@
       {{checked this.value}} />
 
     {{else if this.isSelect}}
-    <select name="{{this.scope}}.{{this.key}}" id="{{this.scope}}.{{this.key}}">
+    <select name="{{this.scope}}.{{this.key}}" id="{{this.scope}}.{{this.key}}" data-dtype="Number">
       {{#select this.value}}
       {{#each this.choices as |name k|}}
       <option value="{{k}}">{{localize name}}</option>

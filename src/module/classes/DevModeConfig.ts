@@ -276,7 +276,7 @@ export class DevModeConfig extends FormApplication {
         inplace: false,
         insertKeys: true,
         insertValues: true,
-        overwrite: true,
+        overwrite: false,
         recursive: true,
       });
 
