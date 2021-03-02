@@ -4,7 +4,7 @@ import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 export function log(force: boolean, ...args) {
   try {
     //@ts-ignore
-    const isDebugging = true; // window.DEV?.getPackageDebugValue(MODULE_ID, 'boolean');
+    const isDebugging = window.DEV?.getPackageDebugValue(MODULE_ID, 'boolean');
 
     const shouldLog = force || isDebugging;
     //@ts-ignore
@@ -26,7 +26,8 @@ export function setDebugOverrides() {
   Object.keys(CONFIG.debug).forEach((debugKey) => {
     const relevantSetting = debugOverrideSettings[debugKey];
 
-    if (relevantSetting !== undefined) {
+    // only override booleans to avoid conflicts with other modules
+    if (relevantSetting !== undefined && typeof relevantSetting === 'boolean') {
       CONFIG.debug[debugKey] = relevantSetting;
     }
 

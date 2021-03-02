@@ -80,7 +80,7 @@ export class DevModeConfig extends FormApplication {
           };
         }
         default: {
-          console.log('did not register dev-mode setting for unknown config type which was not a boolean');
+          console.log('Did not register dev-mode setting for unknown config type which was not a boolean:', debugKey);
         }
       }
     });
@@ -182,8 +182,6 @@ export class DevModeConfig extends FormApplication {
   }
 
   async _updateObject(ev, formData) {
-    debugger;
-
     const { packageSpecificDebugFormData, debugOverrideFormData } = expandObject(formData);
 
     log(false, {
