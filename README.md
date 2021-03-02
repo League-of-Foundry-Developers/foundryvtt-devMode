@@ -58,10 +58,10 @@ async registerPackageDebugFlag(
 - `options.default` is either `false` or `0` by default, depending on the `kind`
 - Returns a promise which resolves true or false depending on if successful.
 
-### `getPackageDebug`
+### `getPackageDebugValue`
 
 ```ts
-getPackageDebug(
+getPackageDebugValue(
   packageName: string,
   kind?: 'boolean' | 'level',
 ): boolean | LogLevel

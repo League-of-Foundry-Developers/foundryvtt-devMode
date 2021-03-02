@@ -1,15 +1,15 @@
 {{!-- Adapted From Foundry Core settings-config.html --}}
 {{#*inline "settingPartial"}}
 <div class="form-group">
-  <label for="{{scope}}.{{this.key}}">{{this.name}}</label>
+  <label for="{{this.scope}}.{{this.key}}">{{this.name}}</label>
   <div class="form-fields">
     {{#if this.isCheckbox}}
 
-    <input type="checkbox" name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}" data-dtype="Boolean" {{checked
-      this.value}} />
+    <input type="checkbox" name="{{this.scope}}.{{this.key}}" id="{{this.scope}}.{{this.key}}" data-dtype="Boolean"
+      {{checked this.value}} />
 
     {{else if this.isSelect}}
-    <select name="{{scope}}.{{this.key}}" id="{{scope}}.{{this.key}}">
+    <select name="{{this.scope}}.{{this.key}}" id="{{this.scope}}.{{this.key}}">
       {{#select this.value}}
       {{#each this.choices as |name k|}}
       <option value="{{k}}">{{localize name}}</option>
@@ -34,8 +34,8 @@
     </nav>
 
     <section class='tab' data-tab='config'>
-      {{#each debugOverrideSettings}}
-      {{> settingPartial scope="debugOverrideSettings"}}
+      {{#each debugOverrideFormData}}
+      {{> settingPartial}}
       {{else}}
       <p class="notes">{{localize 'SETTINGS.None'}}</p>
       {{/each}}
@@ -45,14 +45,14 @@
       <p class="notes">{{localize 'DEV.configMenu.Hint'}}</p>
 
       <h2>{{localize 'DEV.configMenu.DebugMode'}}</h2>
-      {{#each packageSpecificDebugSettings.boolean}}
+      {{#each packageSpecificDebugFormData.boolean}}
       {{> settingPartial}}
       {{else}}
       <p class="notes">{{localize 'SETTINGS.None'}}</p>
       {{/each}}
 
       <h2>{{localize 'DEV.configMenu.LogLevel'}}</h2>
-      {{#each packageSpecificDebugSettings.level}}
+      {{#each packageSpecificDebugFormData.level}}
       {{> settingPartial}}
       {{else}}
       <p class="notes">{{localize 'SETTINGS.None'}}</p>

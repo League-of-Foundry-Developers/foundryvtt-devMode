@@ -1,4 +1,4 @@
-import { PackageSpecificDebugFlag } from '../../devModeTypes';
+import { DebugFlagSetting, DebugFlagType, PackageSpecificDebugFlag } from '../../devModeTypes';
 import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants';
 import { log, setDebugOverrides, localizeWithFallback } from '../helpers';
 
@@ -58,7 +58,7 @@ export class DevModeConfig extends FormApplication {
   get packageSpecificDebug() {
     return game.settings.get(MODULE_ID, MySettings.packageSpecificDebug) as Record<
       string,
-      PackageSpecificDebugFlag<'boolean'> | PackageSpecificDebugFlag<'level'>
+      Record<DebugFlagType, PackageSpecificDebugFlag<'boolean'> | PackageSpecificDebugFlag<'level'>>
     >;
   }
 
@@ -67,13 +67,14 @@ export class DevModeConfig extends FormApplication {
   }
 
   getData() {
-    const debugOverrideSettings = Object.keys(CONFIG.debug).map((debugKey: keyof typeof CONFIG['debug']) => {
+    const debugOverrideFormData = Object.keys(CONFIG.debug).map((debugKey: keyof typeof CONFIG['debug']) => {
       switch (typeof CONFIG.debug[debugKey]) {
         case 'boolean': {
           return {
             name: localizeWithFallback(debugKey, 'Name'),
             hint: localizeWithFallback(debugKey, 'Hint'),
             value: this.debugOverrides[debugKey],
+            scope: 'debugOverrideFormData',
             key: debugKey,
             isCheckbox: true,
           };
@@ -84,66 +85,67 @@ export class DevModeConfig extends FormApplication {
       }
     });
 
-    const packageSpecificDebugSettings = Object.keys(this.packageSpecificDebug).reduce(
-      (acc, packageFlagKey) => {
+    // transform from Record<string, PackageSpecificDebugFlag> to Record<DebugFlagType, ClientSetting>
+    const packageSpecificDebugFormData = Object.keys(this.packageSpecificDebug).reduce<
+      Record<DebugFlagType, DebugFlagSetting<DebugFlagType>[]>
+    >(
+      (acc, packageName: string) => {
         try {
-          const flag = this.packageSpecificDebug[packageFlagKey];
-
-          if (!flag) {
-            throw Error(`Error retreiving module specific debug settings for ${packageFlagKey}`);
-          }
+          // get the packageData like title
 
           let relevantPackageData;
 
-          log(false, 'packageSpecificDebugSettings', flag);
-
-          if (game.system.id === flag.packageName) {
+          if (game.system.id === packageName) {
             relevantPackageData = game.system;
           } else {
-            relevantPackageData = game.modules.get(flag.packageName).data as { title?: string; name: string };
+            relevantPackageData = game.modules.get(packageName).data as { title?: string; name: string };
           }
 
-          log(false, 'packageSpecificDebugSetting', {
-            packageFlagKey,
-            packageSpecificDebug: this.packageSpecificDebug,
-            flag,
-            relevantPackageData,
+          // manipulate the data to look like a ClientSetting
+
+          Object.keys(this.packageSpecificDebug[packageName]).forEach((type: DebugFlagType) => {
+            const relevantFlag = this.packageSpecificDebug[packageName][type];
+
+            switch (relevantFlag.kind) {
+              case 'boolean': {
+                acc[relevantFlag.kind].push({
+                  name: relevantPackageData.title ?? relevantPackageData.name,
+                  value: relevantFlag.value,
+                  scope: 'packageSpecificDebugFormData',
+                  key: `${packageName}.${type}.value`,
+                  isCheckbox: true,
+                });
+                break;
+              }
+              case 'level': {
+                acc[relevantFlag.kind].push({
+                  name: relevantPackageData.title ?? relevantPackageData.name,
+                  value: relevantFlag.value,
+                  key: `${packageName}.${type}.value`,
+                  scope: 'packageSpecificDebugFormData',
+                  choices: {
+                    0: 'DEV.LogLevels.0',
+                    1: 'DEV.LogLevels.1',
+                    2: 'DEV.LogLevels.2',
+                    3: 'DEV.LogLevels.3',
+                    4: 'DEV.LogLevels.4',
+                    5: 'DEV.LogLevels.5',
+                  },
+                  isSelect: true,
+                });
+                break;
+              }
+              default: {
+                throw Error(`Did not register flag for unknown flag kind.`);
+              }
+            }
           });
 
-          // every package gets 1 logLevel and 1 boolean flag
-          switch (flag.kind) {
-            case 'boolean': {
-              acc[flag.kind].push({
-                name: relevantPackageData.title ?? relevantPackageData.name,
-                value: flag.value,
-                scope: 'packageSpecificDebug',
-                key: packageFlagKey,
-                isCheckbox: true,
-              });
-              break;
-            }
-            case 'level': {
-              acc[flag.kind].push({
-                name: relevantPackageData.title ?? relevantPackageData.name,
-                value: flag.value,
-                key: packageFlagKey,
-                scope: 'packageSpecificDebug',
-                choices: {
-                  0: 'DEV.LogLevels.0',
-                  1: 'DEV.LogLevels.1',
-                  2: 'DEV.LogLevels.2',
-                  3: 'DEV.LogLevels.3',
-                  4: 'DEV.LogLevels.4',
-                  5: 'DEV.LogLevels.5',
-                },
-                isSelect: true,
-              });
-              break;
-            }
-            default: {
-              throw Error(`Did not register flag for unknown flag kind.`);
-            }
-          }
+          log(false, 'packageSpecificDebugSetting', {
+            packageFlagKey: packageName,
+            packageSpecificDebug: this.packageSpecificDebug,
+            relevantPackageData,
+          });
 
           return acc;
         } catch (e) {
@@ -156,8 +158,8 @@ export class DevModeConfig extends FormApplication {
 
     const data = {
       ...super.getData(),
-      packageSpecificDebugSettings: packageSpecificDebugSettings,
-      debugOverrideSettings: debugOverrideSettings,
+      packageSpecificDebugFormData,
+      debugOverrideFormData,
     };
 
     log(false, data, {
@@ -180,44 +182,30 @@ export class DevModeConfig extends FormApplication {
   }
 
   async _updateObject(ev, formData) {
-    const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
-    const debugOverrides = game.settings.get(MODULE_ID, MySettings.debugOverrides);
-
     debugger;
 
-    const data = expandObject(formData);
+    const { packageSpecificDebugFormData, debugOverrideFormData } = expandObject(formData);
 
     log(false, {
       formData,
-      data,
+      data: { packageSpecificDebugFormData, debugOverrideFormData },
     });
 
-    const newPackageSpecificDebug = Object.keys(data.packageSpecificDebug).reduce(
-      (acc, packageId) => {
-        Object.keys(data.packageSpecificDebug[packageId]).forEach((kind: 'boolean' | 'level') => {
-          const relevant = data.packageSpecificDebug[packageId][kind];
+    const newPackageSpecificDebug = mergeObject(this.packageSpecificDebug, packageSpecificDebugFormData, {
+      inplace: false,
+      insertKeys: true,
+      insertValues: true,
+      overwrite: true,
+      recursive: true,
+    });
 
-          log(false, { acc, relevant, kind });
-
-          acc[`${packageId}.${kind}`] = {
-            ...relevant,
-            value:
-              kind === 'level'
-                ? Number(data.packageSpecificDebug[packageId][kind])
-                : data.packageSpecificDebug[packageId][kind],
-          };
-        });
-        return acc;
-      },
-      {
-        ...packageSpecificDebug,
-      }
-    );
-
-    const newDebugOverrides = {
-      ...debugOverrides,
-      ...data.debugOverrideSettings,
-    };
+    const newDebugOverrides = mergeObject(this.debugOverrides, debugOverrideFormData, {
+      inplace: false,
+      insertKeys: true,
+      insertValues: true,
+      overwrite: true,
+      recursive: true,
+    });
 
     log(true, 'setting settings', {
       newPackageSpecificDebug,
@@ -278,16 +266,27 @@ export class DevModeConfig extends FormApplication {
 
       const defaultValue = options?.default ?? kind === 'boolean' ? false : LogLevel.NONE;
 
-      const newPackageSpecificDebug = {
-        ...packageSpecificDebug,
-        [`${packageName}.${kind}`]: {
-          packageName,
-          kind,
-          value: defaultValue,
+      const newEntry = {
+        [packageName]: {
+          [kind]: { packageName, kind, value: defaultValue },
         },
       };
 
-      log(true, `Logging ${kind} flag for ${packageName} with default value of ${defaultValue}`);
+      const newPackageSpecificDebug = mergeObject(packageSpecificDebug, newEntry, {
+        inplace: false,
+        insertKeys: true,
+        insertValues: true,
+        overwrite: true,
+        recursive: true,
+      });
+
+      log(false, {
+        newEntry,
+        packageSpecificDebug,
+        newPackageSpecificDebug,
+      });
+
+      log(true, `Registering ${kind} flag for ${packageName} with default value of ${defaultValue}`);
 
       await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
       return true;
@@ -305,17 +304,17 @@ export class DevModeConfig extends FormApplication {
    *
    * @example
    * // Get a boolean flag
-   * const isDebugging = DevModeConfig.getPackageDebug("myPackage", "boolean");
+   * const isDebugging = DevModeConfig.getPackageDebugValue("myPackage", "boolean");
    *
    * @example
    * // Get a log level
-   * const debugLevel = DevModeConfig.getPackageDebug("myPackage", "level");
+   * const debugLevel = DevModeConfig.getPackageDebugValue("myPackage", "level");
    */
-  static getPackageDebug(packageName: string, kind: 'boolean' | 'level' = 'boolean') {
+  static getPackageDebugValue(packageName: string, kind: 'boolean' | 'level' = 'boolean') {
     const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
 
     let relevantFlag: PackageSpecificDebugFlag<'boolean'> | PackageSpecificDebugFlag<'level'> =
-      packageSpecificDebug[`${packageName}.${kind}`];
+      packageSpecificDebug[packageName]?.[kind];
 
     if (!relevantFlag) {
       throw new Error(`${packageName} does not have a ${kind} debug flag registered`);

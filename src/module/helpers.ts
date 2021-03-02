@@ -4,7 +4,7 @@ import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 export function log(force: boolean, ...args) {
   try {
     //@ts-ignore
-    const isDebugging = window.DEV?.getPackageDebug(MODULE_ID, 'boolean');
+    const isDebugging = true; // window.DEV?.getPackageDebugValue(MODULE_ID, 'boolean');
 
     const shouldLog = force || isDebugging;
     //@ts-ignore
@@ -30,7 +30,7 @@ export function setDebugOverrides() {
       CONFIG.debug[debugKey] = relevantSetting;
     }
 
-    log(false, 'setDebugOverride', {
+    log(false, 'setDebugOverride', debugKey, {
       relevant: relevantSetting,
       after: CONFIG.debug[debugKey],
     });

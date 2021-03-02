@@ -27,7 +27,7 @@ Hooks.once('init', async function () {
 
   window[MODULE_ABBREV] = {
     registerPackageDebugFlag: DevModeConfig.registerPackageDebugFlag,
-    getPackageDebug: DevModeConfig.getPackageDebug,
+    getPackageDebugValue: DevModeConfig.getPackageDebugValue,
   };
 
   // register any modules as they init
