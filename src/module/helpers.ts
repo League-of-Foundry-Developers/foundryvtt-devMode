@@ -2,11 +2,16 @@ import { DevModeConfig } from './classes/DevModeConfig';
 import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 
 export function log(force: boolean, ...args) {
-  const shouldLog = force || DevModeConfig.getPackageDebug(MODULE_ID, 'boolean');
-  //@ts-ignore
-  if (shouldLog) {
-    console.log(MODULE_ID, '|', ...args);
-  }
+  try {
+    //@ts-ignore
+    const isDebugging = window.DEV?.getPackageDebug(MODULE_ID, 'boolean');
+
+    const shouldLog = force || isDebugging;
+    //@ts-ignore
+    if (shouldLog) {
+      console.log(MODULE_ID, '|', ...args);
+    }
+  } catch (e) {}
 }
 
 export function setDebugOverrides() {

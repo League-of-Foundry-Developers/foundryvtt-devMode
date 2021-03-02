@@ -95,6 +95,8 @@ export class DevModeConfig extends FormApplication {
 
           let relevantPackageData;
 
+          log(false, 'packageSpecificDebugSettings', flag);
+
           if (game.system.id === flag.packageName) {
             relevantPackageData = game.system;
           } else {
@@ -181,6 +183,8 @@ export class DevModeConfig extends FormApplication {
     const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
     const debugOverrides = game.settings.get(MODULE_ID, MySettings.debugOverrides);
 
+    debugger;
+
     const data = expandObject(formData);
 
     log(false, {
@@ -197,7 +201,10 @@ export class DevModeConfig extends FormApplication {
 
           acc[`${packageId}.${kind}`] = {
             ...relevant,
-            value: data.packageSpecificDebug[packageId][kind],
+            value:
+              kind === 'level'
+                ? Number(data.packageSpecificDebug[packageId][kind])
+                : data.packageSpecificDebug[packageId][kind],
           };
         });
         return acc;
