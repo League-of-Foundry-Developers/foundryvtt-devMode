@@ -3,8 +3,6 @@ import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 import { setDebugOverrides } from './helpers';
 
 export const registerSettings = function () {
-  // (CONFIG[MODULE_ID] as Record<string, any>) = { debug: true };
-
   DevModeConfig.init();
 
   DevModeConfig.registerPackageDebugFlag(MODULE_ID, 'boolean');

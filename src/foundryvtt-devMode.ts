@@ -19,9 +19,6 @@ Handlebars.registerHelper('dev-concat', (...args) => {
 Hooks.once('init', async function () {
   log(true, `Initializing ${MODULE_ID}`);
 
-  // Assign custom classes and constants here
-
-  // Register custom module settings
   registerSettings();
   setDebugOverrides();
 
@@ -36,5 +33,3 @@ Hooks.once('init', async function () {
   // Preload Handlebars templates
   await loadTemplates(Object.values(flattenObject(TEMPLATES)));
 });
-
-Hooks.once('ready', () => {});

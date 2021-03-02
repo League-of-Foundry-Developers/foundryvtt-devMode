@@ -1,4 +1,3 @@
-import { DevModeConfig } from './classes/DevModeConfig';
 import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 
 export function log(force: boolean, ...args) {

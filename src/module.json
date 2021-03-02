@@ -27,12 +27,12 @@
   ],
   "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "0.7.9",
-  "bugs": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/issues",
-  "changelog": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases",
-  "download": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/download/v1.2.0/module.zip",
-  "manifest": "https://github.com/ElfFriend-DnD/foundryvtt-confetti/releases/latest/download/module.json",
-  "readme": "https://raw.githubusercontent.com/ElfFriend-DnD/foundryvtt-confetti/main/README.md",
-  "url": "https://github.com/ElfFriend-DnD/foundryvtt-confetti",
+  "bugs": "https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/issues",
+  "changelog": "https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases",
+  "download": "https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/download/v1.2.0/module.zip",
+  "manifest": "https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/latest/download/module.json",
+  "readme": "https://raw.githubusercontent.com/League-of-Foundry-Developers/foundryvtt-devMode/main/README.md",
+  "url": "https://github.com/League-of-Foundry-Developers/foundryvtt-devMode",
   "allowBugReporter": true,
   "library": true
 }

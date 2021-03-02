@@ -28,9 +28,7 @@ export class DevModeConfig extends FormApplication {
       type: Object,
       scope: 'client',
       config: false,
-      onChange: () => {
-        setDebugOverrides(); // assumption: this runs after the setting has been set
-      },
+      onChange: () => setDebugOverrides(),
     });
   }
 
@@ -85,7 +83,7 @@ export class DevModeConfig extends FormApplication {
       }
     });
 
-    // transform from Record<string, PackageSpecificDebugFlag> to Record<DebugFlagType, ClientSetting>
+    // transform from Record<string, PackageSpecificDebugFlag> to Record<DebugFlagType, DebugFlagSetting[]>
     const packageSpecificDebugFormData = Object.keys(this.packageSpecificDebug).reduce<
       Record<DebugFlagType, DebugFlagSetting<DebugFlagType>[]>
     >(
