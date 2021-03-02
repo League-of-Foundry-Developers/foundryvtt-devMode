@@ -6,7 +6,8 @@
       "PackageSpecific": "Package Specific Debugging",
       "LogLevel": "Select Log Level",
       "DebugMode": "Enable Debug Mode",
-      "Hint": "Packages can register a debug mode setting which will appear below. Checking it or setting a log level will enable more detailed output in the console."
+      "Hint": "Packages can register a debug mode setting which will appear below. Checking it or setting a log level will enable more detailed output in the console.",
+      "None": "None"
     },
     "settings": {
       "config-menu": {

@@ -35,7 +35,7 @@
       {{#each debugOverrideFormData}}
       {{> settingPartial}}
       {{else}}
-      <p class="notes">{{localize 'SETTINGS.None'}}</p>
+      <p class="notes">{{localize 'DEV.configMenu.None'}}</p>
       {{/each}}
     </section>
 
@@ -46,14 +46,14 @@
       {{#each packageSpecificDebugFormData.boolean}}
       {{> settingPartial}}
       {{else}}
-      <p class="notes">{{localize 'SETTINGS.None'}}</p>
+      <p class="notes">{{localize 'DEV.configMenu.None'}}</p>
       {{/each}}
 
       <h2>{{localize 'DEV.configMenu.LogLevel'}}</h2>
       {{#each packageSpecificDebugFormData.level}}
       {{> settingPartial}}
       {{else}}
-      <p class="notes">{{localize 'SETTINGS.None'}}</p>
+      <p class="notes">{{localize 'DEV.configMenu.None'}}</p>
       {{/each}}
     </section>
   </div>
