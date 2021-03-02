@@ -70,11 +70,9 @@ getPackageDebugValue(
 - `kind` defaults to `'boolean'`
 - Returns the current value of your debug flag
 
+## Known ~~Issues~~ Features
 
-
-## Known Issues
-
-- This module does not, in fact, exist yet.
+- Any module which adds a custom key to `CONFIG.debug` will have that key show up in the `CONFIG.debug` overrides setting section.
 
 ## Acknowledgements
 
