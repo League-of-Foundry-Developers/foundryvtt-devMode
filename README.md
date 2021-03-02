@@ -23,7 +23,7 @@ Enable developers to stop putting debug code in their module code which accident
 ## TODO
 
 1. Leverage the potential future `CONFIG.debug.moduleDebug` flag.
-1. Implement other developer tooling. Have an idea? [Leave a suggestion!]()
+1. Implement other developer tooling. Have an idea? [Leave a suggestion!](https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/issues/new?assignees=&labels=enhancement%2C+suggestion&template=feature_request.md&title=)
 
 ## Installation
 
