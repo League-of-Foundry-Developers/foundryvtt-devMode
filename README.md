@@ -15,6 +15,8 @@ A swiss army knife for development tooling in Foundry VTT.
 - Provides an API to register and read a "debug mode flag" which is either a boolean or a number from 0 to 5 (log level).
 - Provides a UI to toggle these flags on and off, preserving this selection in the user's client settings.
 
+![Demo of the Core Config overrides.](readmeImg/debug-mode-core-config.png)
+
 ### Goal
 Enable developers to stop putting debug code in their module code which accidentally gets shipped.
 
