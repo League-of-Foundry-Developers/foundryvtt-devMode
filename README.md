@@ -72,6 +72,39 @@ getPackageDebugValue(
 - `kind` defaults to `'boolean'`
 - Returns the current value of your debug flag
 
+## How do I actually use this?
+
+### Step 1: Register your debug flag
+
+If all you want is a simple boolean, this is as simple as doing this in your module's js:
+```js
+Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
+  registerPackageDebugFlag('my-module-id');
+});
+```
+
+### Step 2: Read that value
+
+Here's a log function I use which allows me to toggle on all of the stupid little logs I leave all over the place while I'm debugging.
+
+```js
+const MODULE_ID = 'my-module-id';
+
+function log(force: boolean, ...args) {
+  try {
+    const isDebugging = window.DEV?.getPackageDebugValue(MODULE_ID);
+
+    if (force || isDebugging) {
+      console.log(MODULE_ID, '|', ...args);
+    }
+  } catch (e) {}
+}
+
+// ...
+
+log(false, someVarToLog); // won't log unless my debug value is true
+```
+
 ## Known ~~Issues~~ Features
 
 - Any module which adds a custom key to `CONFIG.debug` will have that key show up in the `CONFIG.debug` overrides setting section.
