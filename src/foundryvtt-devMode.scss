@@ -9,3 +9,62 @@
     border-bottom: 1px solid #000;
   }
 }
+
+#dev-mode-button {
+  background: transparent;
+  border-radius: 0;
+  border: 0;
+  font-size: 1rem;
+  left: calc(110px - 1.4rem);
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: calc(62px - 1.4rem);
+  width: auto;
+  z-index: 61;
+
+  &::after {
+    content: '🧙';
+    background: linear-gradient(
+      to right,
+      #ff2400,
+      #e81d1d,
+      #e8b71d,
+      #e3e81d,
+      #1de840,
+      #1ddde8,
+      #2b1de8,
+      #dd00f3,
+      #dd00f3
+    );
+    background-size: 1800% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    mix-blend-mode: color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+  }
+
+  &:hover {
+    &::after {
+      animation: shine 18s linear infinite;
+      visibility: visible;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  @keyframes shine {
+    to {
+      background-position: 1800% center;
+    }
+  }
+}

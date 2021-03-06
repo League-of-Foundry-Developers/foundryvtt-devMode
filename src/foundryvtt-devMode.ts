@@ -64,4 +64,11 @@ Hooks.once('init', async function () {
 
   // Preload Handlebars templates
   await loadTemplates(Object.values(flattenObject(TEMPLATES)));
+
+  // add :mage: button to the foundry logo
+  $('#logo').after(`<button type='button' id="dev-mode-button">🧙</button>`);
+  $('#dev-mode-button').on('click', () => {
+    const devModeConfig = new DevModeConfig();
+    devModeConfig.render(true);
+  });
 });
