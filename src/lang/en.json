@@ -19,6 +19,10 @@
         "Name": "Override CONFIG.debug?",
         "Hint": "Whether or not to use the dev-mode override settings for CONFIG.debug flags. Setting to false will cause a reload."
       },
+      "suppress-too-small": {
+        "Name": "Suppress Window Size Warning",
+        "Hint": "Suppresses the window size warning on startup."
+      },
       "fog": {
         "Name": "Fog"
       },

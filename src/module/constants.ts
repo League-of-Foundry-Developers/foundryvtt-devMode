@@ -9,6 +9,7 @@ export enum MySettings {
   overrideConfigDebug = 'override-config-debug',
   packageSpecificDebug = 'package-specific-debug',
   debugOverrides = 'debug-overrides',
+  suppressTooSmall = 'suppress-too-small',
 }
 
 export enum MyFlags {}
