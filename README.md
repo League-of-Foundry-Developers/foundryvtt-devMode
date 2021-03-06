@@ -35,9 +35,10 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 
 ## Configuration
 
-| **Name**               | Description                                                                  |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| Override CONFIG.debug? | Whether or not to use the dev-mode override settings for CONFIG.debug flags. |
+| **Name**                     | Description                                                                  |
+| ---------------------------- | ---------------------------------------------------------------------------- |
+| Override CONFIG.debug?       | Whether or not to use the dev-mode override settings for CONFIG.debug flags. |
+| Suppress Window Size Warning | Suppresses the window size warning on startup.                               |
 
 
 ## API
