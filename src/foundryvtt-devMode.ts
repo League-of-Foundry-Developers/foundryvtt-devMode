@@ -47,12 +47,7 @@ Hooks.once('init', async function () {
   registerSettings();
   setDebugOverrides();
 
-  libWrapper.register(
-    '_dev-mode',
-    'Game.prototype._displayUsabilityErrors',
-    _devModeDisplayUsabilityErrors,
-    'OVERRIDE'
-  );
+  libWrapper.register('_dev-mode', 'Game.prototype._displayUsabilityErrors', _devModeDisplayUsabilityErrors, 'MIXED');
 
   window[MODULE_ABBREV] = {
     registerPackageDebugFlag: DevModeConfig.registerPackageDebugFlag,

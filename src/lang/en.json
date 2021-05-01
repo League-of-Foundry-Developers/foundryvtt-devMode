@@ -23,6 +23,12 @@
         "Name": "Suppress Window Size Warning",
         "Hint": "Suppresses the window size warning on startup."
       },
+      "dice": {
+        "Name": "Dice"
+      },
+      "documents": {
+        "Name": "Documents"
+      },
       "fog": {
         "Name": "Fog"
       },

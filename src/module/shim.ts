@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-or-later
+// SPDX-License-Identifier: MIT
 // Copyright © 2021 fvtt-lib-wrapper Rui Pinheiro
 
 'use strict';
@@ -19,7 +19,7 @@ Hooks.once('init', () => {
       return true;
     }
 
-    static register(module, target, fn, type = 'MIXED') {
+    static register(module, target, fn, type = 'MIXED', { chain = undefined } = {}) {
       const is_setter = target.endsWith('#set');
       target = !is_setter ? target : target.slice(0, -4);
       const split = target.split('.');
@@ -35,16 +35,17 @@ Hooks.once('init', () => {
         if (descriptor) break;
         iObj = Object.getPrototypeOf(iObj);
       }
-      if (!descriptor) throw `libWrapper Shim: '${target}' does not exist or could not be found.`;
+      if (!descriptor || descriptor?.configurable === false)
+        throw `libWrapper Shim: '${target}' does not exist, could not be found, or has a non-configurable descriptor.`;
 
       let original = null;
       const wrapper =
-        type == 'OVERRIDE'
+        chain ?? type != 'OVERRIDE'
           ? function () {
-              return fn.call(this, ...arguments);
+              return fn.call(this, original.bind(this), ...arguments);
             }
           : function () {
-              return fn.call(this, original.bind(this), ...arguments);
+              return fn.apply(this, arguments);
             };
 
       if (!is_setter) {
@@ -74,7 +75,7 @@ Hooks.once('init', () => {
   if (WARN_FALLBACK) {
     //************** USER CUSTOMIZABLE:
     // Module ID - by default attempts to auto-detect, but you might want to hardcode your module ID here to avoid potential auto-detect issues
-    //@ts-ignore
+    // @ts-ignore
     const MODULE_ID = ((import.meta?.url ?? Error().stack)?.match(/(?<=\/)modules\/.+(?=\/)/i) ?? [])[0]
       ?.split('/')
       ?.find((n) => n && game.modules.has(n));
@@ -87,7 +88,8 @@ Hooks.once('init', () => {
 
     Hooks.once('ready', () => {
       // Module title
-      const MODULE_TITLE = (game.modules.get(MODULE_ID).data as { title?: string }).title;
+      // @ts-ignore
+      const MODULE_TITLE = game.modules.get(MODULE_ID).data.title;
 
       //************** USER CUSTOMIZABLE:
       // Title and message for the dialog shown when the real libWrapper is not installed.
