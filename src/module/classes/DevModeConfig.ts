@@ -96,7 +96,7 @@ export class DevModeConfig extends FormApplication {
           if (game.system.id === packageName) {
             relevantPackageData = game.system;
           } else {
-            relevantPackageData = game.modules.get(packageName).data as { title?: string; name: string };
+            relevantPackageData = game.modules.get(packageName).data;
           }
 
           // manipulate the data to look like a ClientSetting
