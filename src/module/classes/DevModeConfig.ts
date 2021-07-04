@@ -89,6 +89,11 @@ export class DevModeConfig extends FormApplication {
     >(
       (acc, packageName: string) => {
         try {
+          // don't do anything if it is devMode itself
+          if (packageName === MODULE_ID) {
+            return acc;
+          }
+
           // get the packageData like title
 
           let relevantPackageData;
@@ -97,6 +102,10 @@ export class DevModeConfig extends FormApplication {
             relevantPackageData = game.system;
           } else {
             relevantPackageData = game.modules.get(packageName).data;
+          }
+
+          if (!relevantPackageData.active) {
+            return acc;
           }
 
           // manipulate the data to look like a ClientSetting
@@ -153,6 +162,17 @@ export class DevModeConfig extends FormApplication {
       },
       { boolean: [], level: [] }
     );
+
+    // Add DevMode to the end of the list
+    const devModeData = game.modules.get(MODULE_ID).data as any;
+
+    packageSpecificDebugFormData.boolean.push({
+      name: devModeData.title,
+      value: this.packageSpecificDebug[MODULE_ID]['boolean'].value,
+      scope: 'packageSpecificDebugFormData',
+      key: `${MODULE_ID}.boolean.value`,
+      isCheckbox: true,
+    });
 
     const data = {
       ...super.getData(),
