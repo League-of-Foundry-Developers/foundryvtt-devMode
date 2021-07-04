@@ -6,9 +6,10 @@ export const TEMPLATES = {
 };
 
 export enum MySettings {
+  alwaysUnpause = 'always-unpause',
+  debugOverrides = 'debug-overrides',
   overrideConfigDebug = 'override-config-debug',
   packageSpecificDebug = 'package-specific-debug',
-  debugOverrides = 'debug-overrides',
   suppressTooSmall = 'suppress-too-small',
 }
 

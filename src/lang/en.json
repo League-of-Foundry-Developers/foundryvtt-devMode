@@ -23,6 +23,10 @@
         "Name": "Suppress Window Size Warning",
         "Hint": "Suppresses the window size warning on startup."
       },
+      "always-unpause": {
+        "Name": "Always Unpause",
+        "Hint": "The game will always unpause when starting."
+      },
       "dice": {
         "Name": "Dice"
       },

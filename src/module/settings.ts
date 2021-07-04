@@ -14,6 +14,7 @@ const settingsToRegister = [
     },
   },
   { key: MySettings.suppressTooSmall, default: true },
+  { key: MySettings.alwaysUnpause, default: true },
 ];
 
 export const registerSettings = function () {

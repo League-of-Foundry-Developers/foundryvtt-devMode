@@ -67,3 +67,9 @@ Hooks.once('init', async function () {
     devModeConfig.render(true);
   });
 });
+
+Hooks.on('ready', () => {
+  if (game.paused && game.settings.get(MODULE_ID, MySettings.alwaysUnpause)) {
+    game.togglePause(false);
+  }
+});
