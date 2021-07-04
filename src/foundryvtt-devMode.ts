@@ -49,13 +49,34 @@ Hooks.once('init', async function () {
 
   libWrapper.register('_dev-mode', 'Game.prototype._displayUsabilityErrors', _devModeDisplayUsabilityErrors, 'MIXED');
 
-  window[MODULE_ABBREV] = {
+  game.modules.get(MODULE_ID).api = {
     registerPackageDebugFlag: DevModeConfig.registerPackageDebugFlag,
     getPackageDebugValue: DevModeConfig.getPackageDebugValue,
   };
 
+  window[MODULE_ABBREV] = game.modules.get(MODULE_ID).api;
+
+  globalThis[MODULE_ABBREV] = {
+    registerPackageDebugFlag: function (...args) {
+      console.warn(
+        MODULE_ID,
+        '|',
+        'accessing the module api on globalThis is deprecated and will be removed in a future update'
+      );
+      return game.modules.get(MODULE_ID).api?.registerPackageDebugFlag(...args);
+    },
+    getPackageDebugValue: function (...args) {
+      console.warn(
+        MODULE_ID,
+        '|',
+        'accessing the module api on globalThis is deprecated and will be removed in a future update'
+      );
+      return game.modules.get(MODULE_ID).api?.getPackageDebugValue(...args);
+    },
+  };
+
   // register any modules as they init
-  Hooks.callAll('devModeReady', window[MODULE_ABBREV]);
+  Hooks.callAll('devModeReady', game.modules.get(MODULE_ID).api);
 
   // Preload Handlebars templates
   await loadTemplates(Object.values(flattenObject(TEMPLATES)));
