@@ -104,7 +104,7 @@ export class DevModeConfig extends FormApplication {
             relevantPackageData = game.modules.get(packageName).data;
           }
 
-          if (!relevantPackageData.active) {
+          if (!game.modules.get(packageName).active) {
             return acc;
           }
 
