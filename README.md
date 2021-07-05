@@ -113,7 +113,18 @@ log(false, someVarToLog); // won't log unless my debug value is true
 
 ## Typescript Definitions
 
+This is an example typescript definition which would be accurate for the DevMode API available on `game.modules.get('_dev-mode')?.api` and provided as the argument to `devModeReady`'s callbacks.
+
 ```ts
+enum LogLevel {
+  NONE = 0,
+  INFO = 1,
+  ERROR = 2,
+  DEBUG = 3,
+  WARN = 4,
+  ALL = 5,
+}
+
 interface DevModeApi {
   registerPackageDebugFlag(packageName: string, kind?: "boolean" | "level", options?: {
       default?: boolean | LogLevel;
@@ -121,7 +132,6 @@ interface DevModeApi {
 
   getPackageDebugValue(packageName: string, kind?: "boolean" | "level"): boolean | LogLevel;
 }
-
 ```
 
 ## Acknowledgements
