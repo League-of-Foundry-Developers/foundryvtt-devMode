@@ -39,11 +39,12 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 | ---------------------------- | ---------------------------------------------------------------------------- |
 | Override CONFIG.debug?       | Whether or not to use the dev-mode override settings for CONFIG.debug flags. |
 | Suppress Window Size Warning | Suppresses the window size warning on startup.                               |
+| Always Unpause               | The game will always unpause when starting.                                  |
 
 
 ## API
 
-While active, after the hook `devModeReady` is fired, the following api methods are expected to be on `window.DEV`:
+While active, after the hook `devModeReady` is fired, the following api methods are expected to be on `game.modules.get('_dev-mode')?.api`:
 
 ### `registerPackageDebugFlag`
 
@@ -93,7 +94,7 @@ const MODULE_ID = 'my-module-id';
 
 function log(force: boolean, ...args) {
   try {
-    const isDebugging = window.DEV?.getPackageDebugValue(MODULE_ID);
+    const isDebugging = game.modules.get('_dev-mode')?.api?.getPackageDebugValue(MODULE_ID);
 
     if (force || isDebugging) {
       console.log(MODULE_ID, '|', ...args);
@@ -109,6 +110,19 @@ log(false, someVarToLog); // won't log unless my debug value is true
 ## Known ~~Issues~~ Features
 
 - Any module which adds a custom key to `CONFIG.debug` will have that key show up in the `CONFIG.debug` overrides setting section.
+
+## Typescript Definitions
+
+```ts
+interface DevModeApi {
+  registerPackageDebugFlag(packageName: string, kind?: "boolean" | "level", options?: {
+      default?: boolean | LogLevel;
+  }): Promise<boolean>;
+
+  getPackageDebugValue(packageName: string, kind?: "boolean" | "level"): boolean | LogLevel;
+}
+
+```
 
 ## Acknowledgements
 
