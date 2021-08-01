@@ -2,12 +2,17 @@ import { DevModeConfig } from './classes/DevModeConfig';
 import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 import { setDebugOverrides } from './helpers';
 
+//@ts-ignore
+const debouncedReload = foundry.utils.debounce(() => {
+  window.location.reload();
+}, 100);
+
 const settingsToRegister = [
   {
     key: MySettings.overrideConfigDebug,
     onChange: (newValue) => {
       if (!newValue) {
-        window.location.reload();
+        debouncedReload();
         return;
       }
       setDebugOverrides();
