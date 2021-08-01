@@ -2,11 +2,10 @@ import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 
 export function log(force: boolean, ...args) {
   try {
-    //@ts-ignore
-    const isDebugging = window.DEV?.getPackageDebugValue(MODULE_ID, 'boolean');
+    const isDebugging = game.modules.get(MODULE_ID)?.api.getPackageDebugValue(MODULE_ID, 'boolean');
 
     const shouldLog = force || isDebugging;
-    //@ts-ignore
+
     if (shouldLog) {
       console.log(MODULE_ID, '|', ...args);
     }
