@@ -32,6 +32,18 @@
     </nav>
 
     <section class='tab' data-tab='config'>
+      <div class="form-group">
+        <label for="overrideConfigDebug">{{localize 'DEV.settings.override-config-debug.Name'}}</label>
+
+        <div class="form-fields">
+          <input type="checkbox" name="overrideConfigDebug" id="overrideConfigDebug" data-dtype="Boolean" {{checked
+            overrideConfigDebug}} />
+        </div>
+
+        <p class="notes">{{localize 'DEV.settings.override-config-debug.Hint'}}</p>
+      </div>
+      <hr />
+
       {{#each debugOverrideFormData}}
       {{> settingPartial}}
       {{else}}

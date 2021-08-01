@@ -178,6 +178,7 @@ export class DevModeConfig extends FormApplication {
       ...super.getData(),
       packageSpecificDebugFormData,
       debugOverrideFormData,
+      overrideConfigDebug: game.settings.get(MODULE_ID, MySettings.overrideConfigDebug),
     };
 
     log(false, data, {
@@ -200,11 +201,11 @@ export class DevModeConfig extends FormApplication {
   }
 
   async _updateObject(ev, formData) {
-    const { packageSpecificDebugFormData, debugOverrideFormData } = expandObject(formData);
+    const { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug } = expandObject(formData);
 
     log(false, {
       formData,
-      data: { packageSpecificDebugFormData, debugOverrideFormData },
+      data: { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug },
     });
 
     const newPackageSpecificDebug = mergeObject(this.packageSpecificDebug, packageSpecificDebugFormData, {
@@ -228,6 +229,7 @@ export class DevModeConfig extends FormApplication {
       newDebugOverrides,
     });
 
+    await game.settings.set(MODULE_ID, MySettings.overrideConfigDebug, overrideConfigDebug);
     await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
     await game.settings.set(MODULE_ID, MySettings.debugOverrides, newDebugOverrides);
 
