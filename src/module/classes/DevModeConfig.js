@@ -1,4 +1,3 @@
-import { DebugFlagSetting, DebugFlagType, PackageSpecificDebugFlag } from '../../devModeTypes';
 import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants';
 import { log, setDebugOverrides, localizeWithFallback } from '../helpers';
 
@@ -37,7 +36,7 @@ export class DevModeConfig extends FormApplication {
       ...super.defaultOptions,
       classes: ['dev-mode-config'],
       closeOnSubmit: false,
-      height: 'auto' as 'auto',
+      height: 'auto',
       submitOnChange: false,
       submitOnClose: false,
       tabs: [
@@ -54,10 +53,7 @@ export class DevModeConfig extends FormApplication {
   }
 
   get packageSpecificDebug() {
-    return game.settings.get(MODULE_ID, MySettings.packageSpecificDebug) as Record<
-      string,
-      Record<DebugFlagType, PackageSpecificDebugFlag<'boolean'> | PackageSpecificDebugFlag<'level'>>
-    >;
+    return game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
   }
 
   get debugOverrides() {
@@ -65,7 +61,7 @@ export class DevModeConfig extends FormApplication {
   }
 
   getData() {
-    const debugOverrideFormData = Object.keys(CONFIG.debug).map((debugKey: keyof typeof CONFIG['debug']) => {
+    const debugOverrideFormData = Object.keys(CONFIG.debug).map((debugKey) => {
       switch (typeof CONFIG.debug[debugKey]) {
         case 'boolean': {
           return {
@@ -84,10 +80,8 @@ export class DevModeConfig extends FormApplication {
     });
 
     // transform from Record<string, PackageSpecificDebugFlag> to Record<DebugFlagType, DebugFlagSetting[]>
-    const packageSpecificDebugFormData = Object.keys(this.packageSpecificDebug).reduce<
-      Record<DebugFlagType, DebugFlagSetting<DebugFlagType>[]>
-    >(
-      (acc, packageName: string) => {
+    const packageSpecificDebugFormData = Object.keys(this.packageSpecificDebug).reduce(
+      (acc, packageName) => {
         try {
           // don't do anything if it is devMode itself
           if (packageName === MODULE_ID) {
@@ -110,7 +104,7 @@ export class DevModeConfig extends FormApplication {
 
           // manipulate the data to look like a ClientSetting
 
-          Object.keys(this.packageSpecificDebug[packageName]).forEach((type: DebugFlagType) => {
+          Object.keys(this.packageSpecificDebug[packageName]).forEach((type) => {
             const relevantFlag = this.packageSpecificDebug[packageName][type];
 
             switch (relevantFlag.kind) {
@@ -164,7 +158,7 @@ export class DevModeConfig extends FormApplication {
     );
 
     // Add DevMode to the end of the list
-    const devModeData = game.modules.get(MODULE_ID).data as any;
+    const devModeData = game.modules.get(MODULE_ID).data;
 
     packageSpecificDebugFormData.boolean.push({
       name: devModeData.title,
@@ -257,11 +251,9 @@ export class DevModeConfig extends FormApplication {
    * });
    */
   static async registerPackageDebugFlag(
-    packageName: string,
-    kind: 'boolean' | 'level' = 'boolean',
-    options?: {
-      default?: boolean | LogLevel;
-    }
+    packageName,
+    kind = 'boolean',
+    options
   ) {
     try {
       if (!packageName) {
@@ -328,11 +320,10 @@ export class DevModeConfig extends FormApplication {
    * // Get a log level
    * const debugLevel = DevModeConfig.getPackageDebugValue("myPackage", "level");
    */
-  static getPackageDebugValue(packageName: string, kind: 'boolean' | 'level' = 'boolean') {
+  static getPackageDebugValue(packageName, kind = 'boolean') {
     const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
 
-    let relevantFlag: PackageSpecificDebugFlag<'boolean'> | PackageSpecificDebugFlag<'level'> =
-      packageSpecificDebug[packageName]?.[kind];
+    let relevantFlag = packageSpecificDebug[packageName]?.[kind];
 
     if (!relevantFlag) {
       throw new Error(`${packageName} does not have a ${kind} debug flag registered`);

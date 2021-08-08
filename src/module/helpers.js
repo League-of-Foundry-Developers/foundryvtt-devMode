@@ -1,6 +1,6 @@
 import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
 
-export function log(force: boolean, ...args) {
+export function log(force, ...args) {
   try {
     const isDebugging = game.modules.get(MODULE_ID)?.api.getPackageDebugValue(MODULE_ID, 'boolean');
 
@@ -9,7 +9,7 @@ export function log(force: boolean, ...args) {
     if (shouldLog) {
       console.log(MODULE_ID, '|', ...args);
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 export function setDebugOverrides() {
@@ -33,7 +33,7 @@ export function setDebugOverrides() {
   });
 }
 
-export function localizeWithFallback(debugKey: keyof typeof CONFIG['debug'], translation: 'Name' | 'Hint') {
+export function localizeWithFallback(debugKey, translation) {
   const localizationKey = `${MODULE_ABBREV}.settings.${debugKey}.${translation}`;
   const hasTranslation = game.i18n.has(localizationKey);
 
