@@ -154,7 +154,7 @@ export class DevModeConfig extends FormApplication {
           return acc;
         }
       },
-      { boolean: [], level: [] }
+      { boolean: [], level: [] },
     );
 
     // Add DevMode to the end of the list
