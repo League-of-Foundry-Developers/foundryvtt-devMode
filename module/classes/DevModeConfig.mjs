@@ -1,36 +1,6 @@
-import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants.mjs';
-import { log, setDebugOverrides, localizeWithFallback } from '../helpers.mjs';
+import { DevMode } from './DevMode.mjs';
 
 export class DevModeConfig extends FormApplication {
-  static init() {
-    // register this FormApplication as a settings menu
-    game.settings.registerMenu(MODULE_ID, 'config-menu', {
-      name: `${MODULE_ABBREV}.settings.config-menu.Name`,
-      label: `${MODULE_ABBREV}.settings.config-menu.Label`,
-      icon: 'fas fa-cogs',
-      type: DevModeConfig,
-      restricted: false,
-      hint: `${MODULE_ABBREV}.settings.config-menu.Hint`,
-    });
-
-    // register the setting where we'll store all module specific debug flags
-    game.settings.register(MODULE_ID, MySettings.packageSpecificDebug, {
-      default: {},
-      type: Object,
-      scope: 'client',
-      config: false,
-    });
-
-    // register the setting where we'll store all debug override flags
-    game.settings.register(MODULE_ID, MySettings.debugOverrides, {
-      default: CONFIG.debug,
-      type: Object,
-      scope: 'client',
-      config: false,
-      onChange: () => setDebugOverrides(),
-    });
-  }
-
   static get defaultOptions() {
     return {
       ...super.defaultOptions,
@@ -46,18 +16,39 @@ export class DevModeConfig extends FormApplication {
           initial: 'config',
         },
       ],
-      template: TEMPLATES.settings,
-      title: game.i18n.localize(`${MODULE_ABBREV}.configMenu.FormTitle`),
+      template: DevMode.TEMPLATES.settings,
+      title: game.i18n.localize(`${DevMode.MODULE_ABBREV}.configMenu.FormTitle`),
       width: 400,
     };
   }
 
   get packageSpecificDebug() {
-    return game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
+    return game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug);
   }
 
   get debugOverrides() {
-    return game.settings.get(MODULE_ID, MySettings.debugOverrides);
+    return game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides);
+  }
+
+  /**
+   * A helper to generate the names and hints of any debug key which has those defined
+   *
+   * @param debugKey - which debug setting we want a translation for
+   * @param translation - either "Name" or "Hint"
+   */
+  static localizeWithFallback(debugKey, translation) {
+    const localizationKey = `${DevMode.MODULE_ABBREV}.settings.${debugKey}.${translation}`;
+    const hasTranslation = game.i18n.has(localizationKey);
+
+    if (hasTranslation) {
+      return game.i18n.localize(localizationKey);
+    }
+
+    if (translation === 'Name') {
+      return debugKey;
+    }
+
+    return undefined;
   }
 
   getData() {
@@ -65,8 +56,8 @@ export class DevModeConfig extends FormApplication {
       switch (typeof CONFIG.debug[debugKey]) {
         case 'boolean': {
           return {
-            name: localizeWithFallback(debugKey, 'Name'),
-            hint: localizeWithFallback(debugKey, 'Hint'),
+            name: DevModeConfig.localizeWithFallback(debugKey, 'Name'),
+            hint: DevModeConfig.localizeWithFallback(debugKey, 'Hint'),
             value: this.debugOverrides[debugKey],
             scope: 'debugOverrideFormData',
             key: debugKey,
@@ -84,7 +75,7 @@ export class DevModeConfig extends FormApplication {
       (acc, packageName) => {
         try {
           // don't do anything if it is devMode itself
-          if (packageName === MODULE_ID) {
+          if (packageName === DevMode.MODULE_ID) {
             return acc;
           }
 
@@ -142,7 +133,7 @@ export class DevModeConfig extends FormApplication {
             }
           });
 
-          log(false, 'packageSpecificDebugSetting', {
+          DevMode.log(false, 'packageSpecificDebugSetting', {
             packageFlagKey: packageName,
             packageSpecificDebug: this.packageSpecificDebug,
             relevantPackageData,
@@ -150,7 +141,7 @@ export class DevModeConfig extends FormApplication {
 
           return acc;
         } catch (e) {
-          log(true, e);
+          DevMode.log(true, e);
           return acc;
         }
       },
@@ -158,13 +149,13 @@ export class DevModeConfig extends FormApplication {
     );
 
     // Add DevMode to the end of the list
-    const devModeData = game.modules.get(MODULE_ID).data;
+    const devModeData = game.modules.get(DevMode.MODULE_ID).data;
 
     packageSpecificDebugFormData.boolean.push({
       name: devModeData.title,
-      value: this.packageSpecificDebug[MODULE_ID]['boolean'].value,
+      value: this.packageSpecificDebug[DevMode.MODULE_ID]['boolean'].value,
       scope: 'packageSpecificDebugFormData',
-      key: `${MODULE_ID}.boolean.value`,
+      key: `${DevMode.MODULE_ID}.boolean.value`,
       isCheckbox: true,
     });
 
@@ -172,10 +163,10 @@ export class DevModeConfig extends FormApplication {
       ...super.getData(),
       packageSpecificDebugFormData,
       debugOverrideFormData,
-      overrideConfigDebug: game.settings.get(MODULE_ID, MySettings.overrideConfigDebug),
+      overrideConfigDebug: game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.overrideConfigDebug),
     };
 
-    log(false, data, {
+    DevMode.log(false, data, {
       debugOverrides: this.debugOverrides,
       packageSpecificDebug: this.packageSpecificDebug,
     });
@@ -187,8 +178,8 @@ export class DevModeConfig extends FormApplication {
 
     html.find('button').on('click', async (event) => {
       if (event.currentTarget?.dataset?.action === 'reset') {
-        await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, {});
-        await game.settings.set(MODULE_ID, MySettings.debugOverrides, CONFIG.debug);
+        await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug, {});
+        await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides, CONFIG.debug);
         window.location.reload();
       }
     });
@@ -197,7 +188,7 @@ export class DevModeConfig extends FormApplication {
   async _updateObject(ev, formData) {
     const { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug } = expandObject(formData);
 
-    log(false, {
+    DevMode.log(false, {
       formData,
       data: { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug },
     });
@@ -218,113 +209,15 @@ export class DevModeConfig extends FormApplication {
       recursive: true,
     });
 
-    log(true, 'setting settings', {
+    DevMode.log(true, 'setting settings', {
       newPackageSpecificDebug,
       newDebugOverrides,
     });
 
-    await game.settings.set(MODULE_ID, MySettings.overrideConfigDebug, overrideConfigDebug);
-    await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
-    await game.settings.set(MODULE_ID, MySettings.debugOverrides, newDebugOverrides);
+    await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.overrideConfigDebug, overrideConfigDebug);
+    await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug, newPackageSpecificDebug);
+    await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides, newDebugOverrides);
 
     this.close();
-  }
-
-  /**
-   * Register a new module specific debug flag
-   *
-   * @param {string} package   The namespace under which the flag is registered
-   * @param {'boolean' | 'level'} kind      The kind of debug flag
-   * @param {Object} options     Configuration for setting data
-   * @param {boolean | LogLevel} options.default     Default value for this flag
-   *
-   * @example
-   * // Register a boolean flag
-   * DevModeConfig.registerPackageDebugFlag("myPackage", "boolean", {
-   *   default: false,
-   * });
-   *
-   * @example
-   * // Register a log level
-   * DevModeConfig.registerPackageDebugFlag("myPackage", "level", {
-   *   default: 0,
-   * });
-   */
-  static async registerPackageDebugFlag(packageName, kind = 'boolean', options) {
-    try {
-      if (!packageName) {
-        throw new Error('You must specify package name when registering a debugFlag');
-      }
-
-      if (!['boolean', 'level'].includes(kind)) {
-        throw new Error(`Unknown flag kind, you provided "${kind}", expected either "boolean" or "level".`);
-      }
-
-      if (kind === 'boolean' && options?.default && typeof options.default !== 'boolean') {
-        throw new Error(`A boolean flag must have a boolean default, you provided a ${typeof options.default}`);
-      }
-
-      if (kind === 'level' && options?.default && typeof options.default !== 'number') {
-        throw new Error(`A level flag must have a LogLevel default, you provided a ${typeof options.default}`);
-      }
-
-      const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
-
-      const defaultValue = options?.default ?? kind === 'boolean' ? false : LogLevel.NONE;
-
-      const newEntry = {
-        [packageName]: {
-          [kind]: { packageName, kind, value: defaultValue },
-        },
-      };
-
-      const newPackageSpecificDebug = mergeObject(packageSpecificDebug, newEntry, {
-        inplace: false,
-        insertKeys: true,
-        insertValues: true,
-        overwrite: false,
-        recursive: true,
-      });
-
-      log(false, {
-        newEntry,
-        packageSpecificDebug,
-        newPackageSpecificDebug,
-      });
-
-      log(true, `Registering ${kind} flag for ${packageName} with default value of ${defaultValue}`);
-
-      await game.settings.set(MODULE_ID, MySettings.packageSpecificDebug, newPackageSpecificDebug);
-      return true;
-    } catch (e) {
-      console.warn(MODULE_ID, e);
-      return false;
-    }
-  }
-
-  /**
-   * Get a package specific debug field
-   *
-   * @param {string} packageName   The namespace under which the flag is registered
-   * @param {'boolean' | 'level'} kind      The kind of debug flag
-   *
-   * @example
-   * // Get a boolean flag
-   * const isDebugging = DevModeConfig.getPackageDebugValue("myPackage", "boolean");
-   *
-   * @example
-   * // Get a log level
-   * const debugLevel = DevModeConfig.getPackageDebugValue("myPackage", "level");
-   */
-  static getPackageDebugValue(packageName, kind = 'boolean') {
-    const packageSpecificDebug = game.settings.get(MODULE_ID, MySettings.packageSpecificDebug);
-
-    let relevantFlag = packageSpecificDebug[packageName]?.[kind];
-
-    if (!relevantFlag) {
-      throw new Error(`${packageName} does not have a ${kind} debug flag registered`);
-    }
-
-    return relevantFlag.value;
   }
 }
