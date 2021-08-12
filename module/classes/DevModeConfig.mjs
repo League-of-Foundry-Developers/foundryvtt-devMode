@@ -1,5 +1,5 @@
-import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants';
-import { log, setDebugOverrides, localizeWithFallback } from '../helpers';
+import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES, LogLevel } from '../constants.mjs';
+import { log, setDebugOverrides, localizeWithFallback } from '../helpers.mjs';
 
 export class DevModeConfig extends FormApplication {
   static init() {
@@ -250,11 +250,7 @@ export class DevModeConfig extends FormApplication {
    *   default: 0,
    * });
    */
-  static async registerPackageDebugFlag(
-    packageName,
-    kind = 'boolean',
-    options
-  ) {
+  static async registerPackageDebugFlag(packageName, kind = 'boolean', options) {
     try {
       if (!packageName) {
         throw new Error('You must specify package name when registering a debugFlag');

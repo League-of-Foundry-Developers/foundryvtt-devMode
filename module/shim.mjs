@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright © 2021 fvtt-lib-wrapper Rui Pinheiro
 
-
 'use strict';
 
 // A shim for the libWrapper library
 export let libWrapper = undefined;
 
 export const VERSIONS = [1, 8, 0];
-export const TGT_SPLIT_RE = new RegExp("([^.[]+|\\[('([^']|\\'|\\\\)+?'|\"([^\"]|\\\"|\\\\)+?\")\\])", 'g');
-export const TGT_CLEANUP_RE = new RegExp("(^\\['|'\\]$|^\\[\"|\"\\]$)", 'g');
+export const TGT_SPLIT_RE = new RegExp('([^.[]+|\\[(\'([^\']|\\\'|\\\\)+?\'|"([^"]|\\"|\\\\)+?")\\])', 'g');
+export const TGT_CLEANUP_RE = new RegExp('(^\\[\'|\'\\]$|^\\["|"\\]$)', 'g');
 
 // Main shim code
 Hooks.once('init', () => {
@@ -21,9 +20,11 @@ Hooks.once('init', () => {
 
   // Fallback implementation
   libWrapper = class {
-    static get is_fallback() { return true };
+    static get is_fallback() {
+      return true;
+    }
 
-    static register(package_id, target, fn, type = "MIXED", { chain = undefined } = {}) {
+    static register(package_id, target, fn, type = 'MIXED', { chain = undefined } = {}) {
       const is_setter = target.endsWith('#set');
       target = !is_setter ? target : target.slice(0, -4);
       const split = target.match(TGT_SPLIT_RE).map((x) => x.replace(/\\(.)/g, '$1').replace(TGT_CLEANUP_RE, ''));
@@ -39,22 +40,28 @@ Hooks.once('init', () => {
         if (descriptor) break;
         iObj = Object.getPrototypeOf(iObj);
       }
-      if (!descriptor || descriptor?.configurable === false) throw `libWrapper Shim: '${target}' does not exist, could not be found, or has a non-configurable descriptor.`;
+      if (!descriptor || descriptor?.configurable === false)
+        throw `libWrapper Shim: '${target}' does not exist, could not be found, or has a non-configurable descriptor.`;
 
       let original = null;
-      const wrapper = (chain ?? type != 'OVERRIDE') ? function () { return fn.call(this, original.bind(this), ...arguments); } : function () { return fn.apply(this, arguments); };
+      const wrapper =
+        chain ?? type != 'OVERRIDE'
+          ? function () {
+              return fn.call(this, original.bind(this), ...arguments);
+            }
+          : function () {
+              return fn.apply(this, arguments);
+            };
 
       if (!is_setter) {
         if (descriptor.value) {
           original = descriptor.value;
           descriptor.value = wrapper;
-        }
-        else {
+        } else {
           original = descriptor.get;
           descriptor.get = wrapper;
         }
-      }
-      else {
+      } else {
         if (!descriptor.set) throw `libWrapper Shim: '${target}' does not have a setter`;
         original = descriptor.set;
         descriptor.set = wrapper;
@@ -63,5 +70,5 @@ Hooks.once('init', () => {
       descriptor.configurable = true;
       Object.defineProperty(obj, fn_name, descriptor);
     }
-  }
+  };
 });

@@ -1,15 +1,15 @@
-import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
+import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants.mjs';
 
 export function log(force, ...args) {
   try {
-    const isDebugging = game.modules.get(MODULE_ID)?.api.getPackageDebugValue(MODULE_ID, 'boolean');
-
-    const shouldLog = force || isDebugging;
+    const shouldLog = force || game.modules.get(MODULE_ID)?.api?.getPackageDebugValue(MODULE_ID, 'boolean');
 
     if (shouldLog) {
       console.log(MODULE_ID, '|', ...args);
     }
-  } catch (e) { }
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 
 export function setDebugOverrides() {

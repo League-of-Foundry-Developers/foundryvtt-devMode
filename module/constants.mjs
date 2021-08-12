@@ -11,7 +11,7 @@ export const MySettings = {
   overrideConfigDebug: 'override-config-debug',
   packageSpecificDebug: 'package-specific-debug',
   suppressTooSmall: 'suppress-too-small',
-}
+};
 
 export const LogLevel = {
   NONE: 0,
@@ -20,4 +20,4 @@ export const LogLevel = {
   DEBUG: 3,
   WARN: 4,
   ALL: 5,
-}
+};
