@@ -16,7 +16,7 @@ A swiss army knife for development tooling in Foundry VTT.
 - Provides an API to register and read a "debug mode flag" which is either a boolean or a number from 0 to 5 (log level).
 - Provides a UI to toggle these flags on and off, preserving this selection in the user's client settings.
 
-![Demo of the Core Config overrides.](readmeImg/debug-mode-core-config.png)
+![Demo of the Core Config overrides.](docs/debug-mode-core-config.png)
 
 ### Goal
 Enable developers to stop putting debug code in their module code which accidentally gets shipped.
@@ -139,4 +139,4 @@ interface DevModeApi {
 
 Mad props to the [League of Extraordinary FoundryVTT Developers](https://forums.forge-vtt.com/c/package-development/11) community which helped me figure out a lot.
 
-Bootstrapped with Nick East's [create-foundry-project](https://gitlab.com/foundry-projects/foundry-pc/create-foundry-project). Typescript types from [foundry-vtt-types](https://github.com/League-of-Foundry-Developers/foundry-vtt-types).
+Bootstrapped with [Ghost's Foundry Factory](https://github.com/ghost-fvtt/foundry-factory) then heavily trimmed.
