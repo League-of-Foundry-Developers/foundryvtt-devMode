@@ -1,14 +1,13 @@
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const gulp = require('gulp');
-const path = require('path');
 const sass = require('gulp-dart-sass');
 
 /********************/
 /*  CONFIGURATION   */
 /********************/
 
-const name = path.basename(path.resolve('.'));
+const name = 'foundryvtt-devMode';
 const sourceDirectory = '.';
 const distDirectory = './';
 const stylesDirectory = `${sourceDirectory}/styles`;
