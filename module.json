@@ -12,7 +12,7 @@
       "patreon": "https://www.patreon.com/ElfFriend_DnD"
     }
   ],
-  "esmodules": ["_dev-mode.mjs"],
+  "esmodules": ["foundryvtt-devMode.mjs"],
   "styles": ["foundryvtt-devMode.css"],
   "languages": [
     {
