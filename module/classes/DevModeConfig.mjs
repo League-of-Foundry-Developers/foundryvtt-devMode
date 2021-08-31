@@ -116,12 +116,12 @@ export class DevModeConfig extends FormApplication {
                   key: `${packageName}.${type}.value`,
                   scope: 'packageSpecificDebugFormData',
                   choices: {
-                    0: 'DEV.LogLevels.0',
-                    1: 'DEV.LogLevels.1',
-                    2: 'DEV.LogLevels.2',
-                    3: 'DEV.LogLevels.3',
-                    4: 'DEV.LogLevels.4',
-                    5: 'DEV.LogLevels.5',
+                    0: relevantFlag.choiceLabelOverrides?.[0] ?? 'DEV.LogLevels.0',
+                    1: relevantFlag.choiceLabelOverrides?.[1] ?? 'DEV.LogLevels.1',
+                    2: relevantFlag.choiceLabelOverrides?.[2] ?? 'DEV.LogLevels.2',
+                    3: relevantFlag.choiceLabelOverrides?.[3] ?? 'DEV.LogLevels.3',
+                    4: relevantFlag.choiceLabelOverrides?.[4] ?? 'DEV.LogLevels.4',
+                    5: relevantFlag.choiceLabelOverrides?.[5] ?? 'DEV.LogLevels.5',
                   },
                   isSelect: true,
                 });

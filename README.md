@@ -7,7 +7,6 @@
 [![Foundry Hub Comments](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2F_dev-mode%2Fshield%2Fcomments)](https://www.foundryvtt-hub.com/package/_dev-mode/)
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FLeague-of-Foundry-Developers%2Ffoundryvtt-devMode%2Fmain%2Fsrc%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange)
 
-
 A swiss army knife for development tooling in Foundry VTT.
 
 ## Features
@@ -19,6 +18,7 @@ A swiss army knife for development tooling in Foundry VTT.
 ![Demo of the Core Config overrides.](docs/debug-mode-core-config.png)
 
 ### Goal
+
 Enable developers to stop putting debug code in their module code which accidentally gets shipped.
 
 ## TODO
@@ -42,7 +42,6 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 | Suppress Window Size Warning | Suppresses the window size warning on startup.                               |
 | Always Unpause               | The game will always unpause when starting.                                  |
 
-
 ## API
 
 While active, after the hook `devModeReady` is fired, the following api methods are expected to be on `game.modules.get('_dev-mode')?.api`:
@@ -55,13 +54,30 @@ async registerPackageDebugFlag(
   kind?: 'boolean' | 'level',
   options?: {
     default?: boolean | LogLevel;
+    choiceLabelOverrides?: Record<number, string>;
   }
 ): Promise<boolean>
 ```
 
 - `kind` defaults to `'boolean'`
 - `options.default` is either `false` or `0` by default, depending on the `kind`
+- `options.choiceLabelOverrides` allows an object to be passed which overrides the choice labels for a given level (0 - 5). The provided string will be run through `localize`.
 - Returns a promise which resolves true or false depending on if successful.
+
+#### `choiceLabelOverrides` Example
+
+```js
+registerPackageDebugFlag('my-module-id', 'level', {
+  choiceLabelOverrides: {
+    0: 'Foo',
+    1: 'Bar',
+    2: 'Bat',
+    3: 'Biz',
+    4: 'Bin',
+    5: 'Bam',
+  },
+});
+```
 
 ### `getPackageDebugValue`
 
@@ -80,6 +96,7 @@ getPackageDebugValue(
 ### Step 1: Register your debug flag
 
 If all you want is a simple boolean, this is as simple as doing this in your module's js:
+
 ```js
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag('my-module-id');
@@ -129,6 +146,7 @@ enum LogLevel {
 interface DevModeApi {
   registerPackageDebugFlag(packageName: string, kind?: "boolean" | "level", options?: {
       default?: boolean | LogLevel;
+      choiceLabelOverrides?: Record<string, string>; // actually keyed by LogLevel number
   }): Promise<boolean>;
 
   getPackageDebugValue(packageName: string, kind?: "boolean" | "level"): boolean | LogLevel;

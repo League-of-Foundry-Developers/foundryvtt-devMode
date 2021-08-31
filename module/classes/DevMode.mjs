@@ -4,7 +4,7 @@ export class DevMode {
     getPackageDebugValue: this.getPackageDebugValue.bind(this),
   };
 
-  static LOG_LEVEL = {
+  static LogLevel = {
     NONE: 0,
     INFO: 1,
     ERROR: 2,
@@ -92,19 +92,23 @@ export class DevMode {
   static async registerPackageDebugFlag(packageName, kind = 'boolean', options) {
     try {
       if (!packageName) {
-        throw new Error('You must specify package name when registering a debugFlag');
+        throw new Error('_dev-mode | You must specify package name when registering a debugFlag');
       }
 
       if (!['boolean', 'level'].includes(kind)) {
-        throw new Error(`Unknown flag kind, you provided "${kind}", expected either "boolean" or "level".`);
+        throw new Error(`_dev-mode | Unknown flag kind, you provided "${kind}", expected either "boolean" or "level".`);
       }
 
       if (kind === 'boolean' && options?.default && typeof options.default !== 'boolean') {
-        throw new Error(`A boolean flag must have a boolean default, you provided a ${typeof options.default}`);
+        throw new Error(
+          `_dev-mode | A boolean flag must have a boolean default, you provided a ${typeof options.default}`,
+        );
       }
 
       if (kind === 'level' && options?.default && typeof options.default !== 'number') {
-        throw new Error(`A level flag must have a LogLevel default, you provided a ${typeof options.default}`);
+        throw new Error(
+          `_dev-mode | A level flag must have a LogLevel default, you provided a ${typeof options.default}`,
+        );
       }
 
       const packageSpecificDebug = game.settings.get(this.MODULE_ID, this.SETTINGS.packageSpecificDebug);
@@ -113,7 +117,7 @@ export class DevMode {
 
       const newEntry = {
         [packageName]: {
-          [kind]: { packageName, kind, value: defaultValue },
+          [kind]: { packageName, kind, value: defaultValue, choiceLabelOverrides: options?.choiceLabelOverrides },
         },
       };
 
