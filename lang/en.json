@@ -19,6 +19,14 @@
         "Name": "Override CONFIG.debug?",
         "Hint": "Whether or not to use the dev-mode override settings for CONFIG.debug flags. Setting to false will cause a reload."
       },
+      "show-chat-ids": {
+        "Name": "Show Chat Message Ids?",
+        "Hint": "Places a clickable chip on chat messages to copy the id or print the document to the console. Requires Reload"
+      },
+      "show-directory-ids": {
+        "Name": "Show Sidebar Directory Ids?",
+        "Hint": "Places a clickable chip on sidebar directory entries to copy the id or print the document to the console. Requires Reload"
+      },
       "suppress-too-small": {
         "Name": "Suppress Window Size Warning",
         "Hint": "Suppresses the window size warning on startup."

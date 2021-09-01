@@ -19,6 +19,22 @@ export class DevModeSettings {
     },
     { key: DevMode.SETTINGS.suppressTooSmall, default: true },
     { key: DevMode.SETTINGS.alwaysUnpause, default: true },
+    {
+      key: DevMode.SETTINGS.showChatIds,
+      default: true,
+      onChange: () => {
+        this.debouncedReload();
+        return;
+      },
+    },
+    {
+      key: DevMode.SETTINGS.showDirectoryIds,
+      default: true,
+      onChange: () => {
+        this.debouncedReload();
+        return;
+      },
+    },
   ];
 
   /**

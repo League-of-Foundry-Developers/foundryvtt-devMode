@@ -22,6 +22,8 @@ export class DevMode {
     overrideConfigDebug: 'override-config-debug',
     packageSpecificDebug: 'package-specific-debug',
     suppressTooSmall: 'suppress-too-small',
+    showDirectoryIds: 'show-directory-ids',
+    showChatIds: 'show-chat-ids',
   };
 
   static TEMPLATES = {

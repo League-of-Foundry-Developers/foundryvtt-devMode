@@ -68,3 +68,52 @@
     }
   }
 }
+
+.dev-mode-anchor {
+  position: relative;
+}
+
+.dev-mode-tag {
+  background: black;
+  border-top-left-radius: 0.2em;
+  bottom: -1px;
+  color: white;
+  flex: 0 0 auto;
+  font-family: monospace;
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0.2em;
+  position: absolute;
+  right: -1px;
+  user-select: text;
+
+  .dev-mode-tag-actions {
+    background: black;
+    display: none;
+    gap: 0.5em;
+    padding: 0.2em 0.5em;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &:hover {
+    .dev-mode-tag-actions {
+      display: flex;
+    }
+  }
+
+  button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: inherit;
+    line-height: 1;
+    padding: 0;
+
+    i {
+      font-size: 0.8em;
+    }
+  }
+}
