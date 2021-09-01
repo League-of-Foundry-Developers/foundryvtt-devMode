@@ -35,6 +35,14 @@ export class DevModeSettings {
         return;
       },
     },
+    {
+      key: DevMode.SETTINGS.disableTemplateCache,
+      default: false,
+      onChange: () => {
+        this.debouncedReload();
+        return;
+      },
+    },
   ];
 
   /**

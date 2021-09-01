@@ -24,6 +24,7 @@ export class DevMode {
     suppressTooSmall: 'suppress-too-small',
     showDirectoryIds: 'show-directory-ids',
     showChatIds: 'show-chat-ids',
+    disableTemplateCache: 'disable-template-cache',
   };
 
   static TEMPLATES = {
