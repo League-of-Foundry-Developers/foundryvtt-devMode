@@ -84,14 +84,14 @@ export class DevModeConfig extends FormApplication {
           let relevantPackageData;
 
           if (game.system.id === packageName) {
-            relevantPackageData = game.system;
+            relevantPackageData = game.system.data;
           } else {
+            if (!game.modules.get(packageName).active) {
+              return acc;
+            }
             relevantPackageData = game.modules.get(packageName).data;
           }
 
-          if (!game.modules.get(packageName).active) {
-            return acc;
-          }
 
           // manipulate the data to look like a ClientSetting
 
