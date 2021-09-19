@@ -23,6 +23,7 @@
   top: calc(62px - 1.4rem);
   width: auto;
   z-index: 61;
+  pointer-events: all;
 
   &::after {
     content: '🧙';
