@@ -12,7 +12,7 @@ export class DevModeConfig extends FormApplication {
       tabs: [
         {
           navSelector: '.tabs',
-          contentSelector: 'form',
+          contentSelector: '.main-content',
           initial: 'config',
         },
       ],
