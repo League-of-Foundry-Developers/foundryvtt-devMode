@@ -52,6 +52,8 @@ Hooks.once('init', function () {
   if (game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.disableTemplateCache)) {
     setupDisableTemplateCache();
   }
+
+  setupDevModeAnchor();
 });
 
 Hooks.on('ready', () => {
@@ -59,5 +61,3 @@ Hooks.on('ready', () => {
     game.togglePause(false);
   }
 });
-
-setupDevModeAnchor();

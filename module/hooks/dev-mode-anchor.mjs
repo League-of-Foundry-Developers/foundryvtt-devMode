@@ -4,10 +4,19 @@ import { DevMode } from '../classes/DevMode.mjs';
  * Set up the dev-mode copy and print DOM plus listeners
  */
 export default function setupDevModeAnchor() {
+  const idAttribute = foundry.utils.isNewerVersion(game.version, 0.9) ? 'data-document-id' : 'data-entity-id';
+  const idKey = foundry.utils.isNewerVersion(game.version, 0.9) ? 'documentId' : 'entityId';
+
+  DevMode.log(false, 'setupDevModeAnchor', {
+    idAttribute,
+    idKey,
+    version: game.version,
+  });
+
   const devModeTag = (relevantId, collection) => `
   <div class="dev-mode-tag">
     ${relevantId}
-    <div class="dev-mode-tag-actions" data-entity-id="${relevantId}" data-collection="${collection}">
+    <div class="dev-mode-tag-actions" ${idAttribute}="${relevantId}" data-collection="${collection}">
       <button class="dev-mode-copy" title=""><i class="far fa-copy"></i></button>
       <button class="dev-mode-print" title=""><i class="fa fa-terminal"></i></button>
     </div>
@@ -19,8 +28,12 @@ export default function setupDevModeAnchor() {
       return;
     }
 
-    html.find('.directory-item[data-entity-id]').each(function () {
-      const relevantId = $(this).data()?.entityId;
+    DevMode.log(false, 'renderSidebarDirectory', directory, {
+      idAttribute,
+    });
+
+    html.find(`.directory-item[${idAttribute}]`).each(function () {
+      const relevantId = $(this).data()?.[idKey];
       const collection = $(this).parents('[data-tab]').data()?.tab;
 
       $(this).addClass('dev-mode-anchor');
@@ -39,10 +52,10 @@ export default function setupDevModeAnchor() {
 
   /**
    * Any DOM element with the `.dev-mode-copy` class will look up the tree for an element
-   * with `data-entity-id` attribute and copy that attribute's value when clicked.
+   * with `${idAttribute}` attribute and copy that attribute's value when clicked.
    */
   $('html').on('click', '.dev-mode-copy', function () {
-    const toCopy = $(this).parents('[data-entity-id]').data()?.entityId;
+    const toCopy = $(this).parents(`[${idAttribute}]`).data()?.[idKey];
     DevMode.log(false, {
       toCopy,
     });
@@ -60,12 +73,12 @@ export default function setupDevModeAnchor() {
 
   /**
    * Any DOM element with the `.dev-mode-print` class will look up the tree for an element
-   * with `data-entity-id` and `data-collection` and then print the correct document to
+   * with `${idAttribute}` and `data-collection` and then print the correct document to
    * console.
    */
   $('html').on('click', '.dev-mode-print', function () {
     try {
-      const idToPrint = $(this).parents('[data-entity-id]').data()?.entityId;
+      const idToPrint = $(this).parents(`[${idAttribute}]`).data()?.[idKey];
 
       const tab = $(this).parents('[data-collection]').data()?.collection;
 
