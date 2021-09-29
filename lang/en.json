@@ -39,6 +39,14 @@
         "Name": "Always Unpause",
         "Hint": "The game will always unpause when starting."
       },
+      "json-diff-system": {
+        "Name": "System JSON changes",
+        "Hint": "Notify about system.json and template.json changes."
+      },
+      "json-diff-modules": {
+        "Name": "Module JSON changes",
+        "Hint": "Notify about module.json changes on any and all active modules."
+      },
       "dice": {
         "Name": "Dice"
       },
