@@ -43,6 +43,20 @@ export class DevModeSettings {
         return;
       },
     },
+    {
+      key: DevMode.SETTINGS.jsonDiffSystem,
+      default: false,
+      onChange: (value) => {
+        if (value) this.debouncedReload();
+      }
+    },
+    {
+      key: DevMode.SETTINGS.jsonDiffModules,
+      default: false,
+      onChange: (value) => {
+        if (value) this.debouncedReload();
+      }
+    }
   ];
 
   /**

@@ -25,6 +25,8 @@ export class DevMode {
     showDirectoryIds: 'show-directory-ids',
     showChatIds: 'show-chat-ids',
     disableTemplateCache: 'disable-template-cache',
+    jsonDiffSystem: 'json-diff-system',
+    jsonDiffModules: 'json-diff-modules'
   };
 
   static TEMPLATES = {
