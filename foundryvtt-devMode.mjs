@@ -4,7 +4,7 @@ import { DevModeConfig } from './module/classes/DevModeConfig.mjs';
 import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilityErrors.mjs';
 import { libWrapper } from './module/shim.mjs';
 import setupDevModeAnchor from './module/hooks/dev-mode-anchor.mjs';
-import './module/hooks/json-changes.mjs';
+import { setupJSONDiff } from './module/hooks/json-changes.mjs';
 import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
 
 Handlebars.registerHelper('dev-concat', (...args) => {
@@ -61,4 +61,6 @@ Hooks.on('ready', () => {
   if (game.paused && game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.alwaysUnpause)) {
     game.togglePause(false);
   }
+
+  setupJSONDiff();
 });
