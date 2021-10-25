@@ -1,0 +1,28 @@
+<form autocomplete="off">
+  <div class="form-group">
+    {{#each types}}
+    <h2>{{this}}</h2>
+    {{/each}}
+  </div>
+  {{#each data as |tdata id|}}
+  {{#if (gt tdata._total 0)}}
+  <div class="form-group">
+    <h3>{{localize (concat (concat "DEV.template-json-report." id) ".Label")}}</h3>
+    <p class="notes">{{localize (concat (concat "DEV.template-json-report." id) ".Hint")}}</p>
+    {{log id tdata}}
+    <div class="form-fields">
+      {{#each tdata as |stdata typeId|}}
+      {{#unless (eq typeId "_total")}}
+      <ul>
+        {{#each stdata as |template|}}
+        <li>{{template}}</li>
+        {{/each}}
+      </ul>
+      {{/unless}}
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+  {{/each}}
+  <hr>
+</form>
