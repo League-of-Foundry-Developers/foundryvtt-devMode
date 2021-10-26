@@ -78,6 +78,9 @@ export async function inspectSystemTemplate() {
   }
   console.groupEnd();
 
+  for (let ignore of ignoreReportKeys)
+    delete reportData[ignore];
+
   const problems = templateTypes
     .reduce((total, tt) => {
       const s = Object.keys(reportData)
@@ -91,9 +94,6 @@ export async function inspectSystemTemplate() {
     }, 0);
 
   if (problems > 0) {
-    for (let ignore of ignoreReportKeys)
-      delete reportData[ignore];
-
     new Dialog({
       title: "template.json report",
       content: await renderTemplate("modules/_dev-mode/templates/inspect-template-report.hbs", { data: reportData, types: templateTypes }),
