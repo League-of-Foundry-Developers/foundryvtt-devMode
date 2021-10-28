@@ -86,7 +86,7 @@
     "template-json-report": {
       "unregistered": {
         "Label": "Unregistered",
-        "Hint": "Template document types defined but not registered."
+        "Hint": "Template document types defined but lack registered sheet."
       },
       "untemplated": {
         "Label": "Untemplated",

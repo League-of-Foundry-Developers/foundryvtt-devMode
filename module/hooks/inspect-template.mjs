@@ -22,63 +22,64 @@ export async function inspectSystemTemplate() {
   };
 
   // Fill reportData defaults
-  for (const category of Object.keys(reportData)) {
-      for (const type of templateTypes)
-        reportData[category][type] = new Set();
-      reportData[category]._total = 0;
-      reportData[category]._label = `DEV.template-json-report.${category}.Label`;
-      reportData[category]._hint = `DEV.template-json-report.${category}.Hint`;
-    }
+  Object.keys(reportData).forEach(category => {
+    templateTypes.forEach(type => reportData[category][type] = new Set());
+    reportData[category]._total = 0;
+    reportData[category]._label = `DEV.template-json-report.${category}.Label`;
+    reportData[category]._hint = `DEV.template-json-report.${category}.Hint`;
+  });
 
   // Collect and cross-reference data
-  for (const type of templateTypes) {
+  templateTypes.forEach(type => {
     const templateData = template[type]; // ex. Actor
     const templateSubtypes = templateData.types; // ex. Actor.types
-    const registeredSubtypes = game.system.entityTypes[type]; // Registered types
-    for (const registeredSubtype of registeredSubtypes) {
+    // Check if the subtypes have been registered (present in sheetClasses)
+    const registeredSubtypes = Object.keys(CONFIG[type].sheetClasses); // Registered types
+    registeredSubtypes.forEach(registeredSubtype => {
       if (!templateSubtypes.includes(registeredSubtype))
         reportData.untemplated[type].add(registeredSubtype);
-    }
-    for (const templateSubtype of templateSubtypes) {
-      //
-      if (!registeredSubtypes.includes(templateSubtype))
+    });
+    // Cross-reference otherwise
+    templateSubtypes.forEach(templateSubtype => {
+      // Test if templated types have registered sheets.
+      if (Object.keys(CONFIG[type].sheetClasses[templateSubtype] ?? {}).length === 0)
         reportData.unregistered[type].add(templateSubtype);
 
-      for (const includedSubTemplate of templateData[templateSubtype].templates) { // ex. Actor.type.templates.*
+      templateData[templateSubtype].templates.forEach(includedSubTemplate => { // ex. Actor.type.templates.*
         // Check for used or undefined templates
         if (includedSubTemplate in templateData.templates)
           reportData.used[type].add(includedSubTemplate);
         else
           reportData.undefined[type].add(includedSubTemplate);
-      }
-    }
-  }
+      });
+    });
+  });
 
   // Check for unused templates
-  for (const type of templateTypes) {
-    for (const subTemplateName of Object.keys(template[type].templates)) {
-      if (!reportData.used[type].has(subTemplateName))
-        reportData.unused[type].add(subTemplateName);
-    }
-  }
+  templateTypes
+    .forEach(type => Object.keys(template[type].templates)
+      .forEach(subTemplateName => {
+        if (!reportData.used[type].has(subTemplateName))
+          reportData.unused[type].add(subTemplateName);
+      })
+    );
 
   // Print basic report to console
   console.group('template.json report');
-  for (const type of templateTypes) {
+  templateTypes.forEach(type => {
     console.group(type);
-    for (const category of Object.keys(reportData)) {
-      if (ignoreReportKeys.includes(category)) continue;
+    Object.keys(reportData).forEach(category => {
+      if (ignoreReportKeys.includes(category)) return;
       const reportSet = reportData[category][type];
-      if (reportSet.size === 0) continue;
+      if (reportSet.size === 0) return;
       console.log(category, ':', reportSet);
-    }
+    });
     console.groupEnd();
-  }
+  });
   console.groupEnd();
 
   // Clear some keys for dialog report
-  for (let ignore of ignoreReportKeys)
-    delete reportData[ignore];
+  ignoreReportKeys.forEach(ignore => delete reportData[ignore]);
 
   // Check if there is actually anything worth reporting after above deletion
   const problems = templateTypes
