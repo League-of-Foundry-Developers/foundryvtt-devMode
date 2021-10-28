@@ -28,16 +28,19 @@ export async function inspectSystemTemplate() {
     used: {}, // Templates that are used.
   };
 
-  for (const tt of templateTypes) {
-    // Fill reportData defaults
-    for (const rk of Object.keys(reportData)) {
-      reportData[rk][tt] = [];
-      reportData[rk]._total = 0;
+  // Fill reportData defaults
+  for (const category of Object.keys(reportData)) {
+      for (const type of templateTypes)
+        reportData[category][type] = new Set();
+      reportData[category]._total = 0;
+      reportData[category]._label = `DEV.template-json-report.${category}.Label`;
+      reportData[category]._hint = `DEV.template-json-report.${category}.Hint`;
     }
 
-    // Collect data
     const registeredSubtypes = game.system.entityTypes[tt]; // Registered types
     const templateData = template[tt]; // ex. Actor
+  // Collect and cross-reference data
+  for (const type of templateTypes) {
     const templateSubtypes = templateData.types; // ex. Actor.types
     for (const d of registeredSubtypes) {
       if (!templateSubtypes.includes(d))

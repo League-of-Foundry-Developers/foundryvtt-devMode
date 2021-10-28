@@ -7,18 +7,17 @@
   {{#each data as |tdata id|}}
   {{#if (gt tdata._total 0)}}
   <div class="form-group">
-    <h3>{{localize (concat (concat "DEV.template-json-report." id) ".Label")}}</h3>
-    <p class="notes">{{localize (concat (concat "DEV.template-json-report." id) ".Hint")}}</p>
-    {{log id tdata}}
+    <h3>{{localize _label}}</h3>
+    <p class="notes">{{localize _hint}}</p>
     <div class="form-fields">
-      {{#each tdata as |stdata typeId|}}
-      {{#unless (eq typeId "_total")}}
+      {{#each ../types as |type|}}
+      {{#with (lookup tdata type) as |stdata|}}
       <ul>
         {{#each stdata as |template|}}
         <li>{{template}}</li>
         {{/each}}
       </ul>
-      {{/unless}}
+      {{/with}}
       {{/each}}
     </div>
   </div>
