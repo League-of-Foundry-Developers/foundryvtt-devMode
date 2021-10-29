@@ -1,0 +1,20 @@
+<div class="flexrow">
+  {{#each types}}<h2>{{this}}</h2>{{/each}}
+</div>
+{{#each data as |tdata id|}}
+{{#if (gt tdata._total 0)}}
+<div class="flexcol">
+  <h3 style="margin:0;padding:0;">{{localize _label}}</h3>
+  <p style="margin:0;padding:0;"><small>{{localize _hint}}</small></p>
+  <div class="flexrow">
+    {{#each ../types as |type|}}
+    {{#with (lookup tdata type) as |stdata|}}
+    <ul>
+      {{#each stdata as |template|}}<li>{{template}}</li>{{/each}}
+    </ul>
+    {{/with}}
+    {{/each}}
+  </div>
+</div>
+{{/if}}
+{{/each}}

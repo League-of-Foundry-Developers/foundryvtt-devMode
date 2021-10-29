@@ -56,6 +56,13 @@ export class DevModeSettings {
       onChange: (value) => {
         if (value) this.debouncedReload();
       }
+    },
+    {
+      key: DevMode.SETTINGS.inspectTemplate,
+      default: false,
+      onChange: (value) => {
+        if (value) this.debouncedReload();
+      }
     }
   ];
 

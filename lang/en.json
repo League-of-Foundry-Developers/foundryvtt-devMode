@@ -47,6 +47,10 @@
         "Name": "Module JSON changes",
         "Hint": "Notify about module.json changes on any and all active modules."
       },
+      "inspect-system-template": {
+        "Name": "Inspect template.json",
+        "Hint": "Does basic checks on template.json for potential issues on load."
+      },
       "dice": {
         "Name": "Dice"
       },
@@ -77,6 +81,24 @@
       },
       "time": {
         "Name": "Time"
+      }
+    },
+    "template-json-report": {
+      "unregistered": {
+        "Label": "Unregistered",
+        "Hint": "Template document types defined but lack registered sheet."
+      },
+      "untemplated": {
+        "Label": "Untemplated",
+        "Hint": "Registered document types not found in template."
+      },
+      "unused": {
+        "Label": "Unused",
+        "Hint": "Templates left unused."
+      },
+      "undefined": {
+        "Label": "Undefined",
+        "Hint": "Templates referred to in types but not defined."
       }
     },
     "LogLevels": {

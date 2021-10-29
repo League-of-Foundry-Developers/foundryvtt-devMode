@@ -5,6 +5,7 @@ import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilit
 import { libWrapper } from './module/shim.mjs';
 import setupDevModeAnchor from './module/hooks/dev-mode-anchor.mjs';
 import { setupJSONDiff } from './module/hooks/json-changes.mjs';
+import { inspectSystemTemplate } from './module/hooks/inspect-template.mjs';
 import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
 
 Handlebars.registerHelper('dev-concat', (...args) => {
@@ -63,4 +64,6 @@ Hooks.on('ready', () => {
   }
 
   setupJSONDiff();
+
+  inspectSystemTemplate();
 });

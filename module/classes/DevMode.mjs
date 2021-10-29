@@ -26,7 +26,8 @@ export class DevMode {
     showChatIds: 'show-chat-ids',
     disableTemplateCache: 'disable-template-cache',
     jsonDiffSystem: 'json-diff-system',
-    jsonDiffModules: 'json-diff-modules'
+    jsonDiffModules: 'json-diff-modules',
+    inspectTemplate: 'inspect-system-template'
   };
 
   static TEMPLATES = {
