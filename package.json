@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "foundryvtt-devMode",
-  "version": "1.7.0",
+  "version": "1.9.0",
   "description": "A module with some tools to help enable Foundry VTT package developers.",
   "license": "MIT",
   "repository": {
