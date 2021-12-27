@@ -23,7 +23,7 @@ export default function setupDevModeAnchor() {
   </div>
   `;
 
-  Hooks.on('renderSidebarDirectory', (directory, html) => {
+  Hooks.on('renderSidebarDirectory', async (directory, html) => {
     if (!game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.showDirectoryIds)) {
       return;
     }
@@ -41,7 +41,7 @@ export default function setupDevModeAnchor() {
     });
   });
 
-  Hooks.on('renderChatMessage', (chatMessage, html) => {
+  Hooks.on('renderChatMessage', async (chatMessage, html) => {
     if (!game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.showChatIds)) {
       return;
     }
