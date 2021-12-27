@@ -1,12 +1,13 @@
 import { DevMode } from './module/classes/DevMode.mjs';
-import { DevModeSettings } from './module/classes/DevModeSettings.mjs';
 import { DevModeConfig } from './module/classes/DevModeConfig.mjs';
-import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilityErrors.mjs';
-import { libWrapper } from './module/shim.mjs';
+import { DevModeSettings } from './module/classes/DevModeSettings.mjs';
+import setupApplicationHeaderPrintButton from './module/hooks/app-header-buttons.mjs';
 import setupDevModeAnchor from './module/hooks/dev-mode-anchor.mjs';
-import { setupJSONDiff } from './module/hooks/json-changes.mjs';
 import { inspectSystemTemplate } from './module/hooks/inspect-template.mjs';
+import { setupJSONDiff } from './module/hooks/json-changes.mjs';
+import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilityErrors.mjs';
 import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
+import { libWrapper } from './module/shim.mjs';
 
 Handlebars.registerHelper('dev-concat', (...args) => {
   DevMode.log(false, args);
@@ -66,4 +67,6 @@ Hooks.on('ready', () => {
   setupJSONDiff();
 
   inspectSystemTemplate();
+
+  setupApplicationHeaderPrintButton();
 });

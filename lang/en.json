@@ -51,6 +51,10 @@
         "Name": "Inspect template.json",
         "Hint": "Does basic checks on template.json for potential issues on load."
       },
+      "app-header-button": {
+        "Name": "Show App Header Button?",
+        "Hint": "Places a Header Button on document sheets to print the document to the console. Requires Reload"
+      },
       "dice": {
         "Name": "Dice"
       },
@@ -81,6 +85,17 @@
       },
       "time": {
         "Name": "Time"
+      },
+      "keybindings": {
+        "Name": "Keybindings",
+        "Hint": "Turning this on will console log all keybinding events as they fire while you interact with the Foundry UI."
+      },
+      "polygons": {
+        "Name": "Polygons",
+        "Hint": "Turning this on will print debugging polygons on the canvas. Relates to vision, sound, and LOS."
+      },
+      "gamepad": {
+        "Name": "Gamepad"
       }
     },
     "template-json-report": {

@@ -36,6 +36,14 @@ export class DevModeSettings {
       },
     },
     {
+      key: DevMode.SETTINGS.appHeaderButton,
+      default: true,
+      onChange: () => {
+        this.debouncedReload();
+        return;
+      },
+    },
+    {
       key: DevMode.SETTINGS.disableTemplateCache,
       default: false,
       onChange: () => {
@@ -48,22 +56,22 @@ export class DevModeSettings {
       default: false,
       onChange: (value) => {
         if (value) this.debouncedReload();
-      }
+      },
     },
     {
       key: DevMode.SETTINGS.jsonDiffModules,
       default: false,
       onChange: (value) => {
         if (value) this.debouncedReload();
-      }
+      },
     },
     {
       key: DevMode.SETTINGS.inspectTemplate,
       default: false,
       onChange: (value) => {
         if (value) this.debouncedReload();
-      }
-    }
+      },
+    },
   ];
 
   /**

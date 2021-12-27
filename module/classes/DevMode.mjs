@@ -23,11 +23,12 @@ export class DevMode {
     packageSpecificDebug: 'package-specific-debug',
     suppressTooSmall: 'suppress-too-small',
     showDirectoryIds: 'show-directory-ids',
+    appHeaderButton: 'app-header-button',
     showChatIds: 'show-chat-ids',
     disableTemplateCache: 'disable-template-cache',
     jsonDiffSystem: 'json-diff-system',
     jsonDiffModules: 'json-diff-modules',
-    inspectTemplate: 'inspect-system-template'
+    inspectTemplate: 'inspect-system-template',
   };
 
   static TEMPLATES = {
