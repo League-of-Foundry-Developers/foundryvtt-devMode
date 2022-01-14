@@ -16,16 +16,19 @@ const cullKeys = {
 };
 
 const deprecatedKeys = {
+  // "systems" key deprecation has special handling.
   packs: {
     entity: "type", // v9 deprecation (entity -> type), v10 incompatible
   }
 };
 
 /**
+ * Mutates inputs before checking.
  * @param {Object} data
  * @param {Object} result
  */
 function preScrubData(data, result) {
+  // PackageData constructor handles systems deprecation badly, so it is handled here.
   if (data.systems) {
     data.system = data.systems;
     delete data.systems;
@@ -38,8 +41,8 @@ function preScrubData(data, result) {
  * @param {SystemData|ModuleData} loadedPkg Currently loaded data.
  * @param {Function} comparer Custom comparer instead of default diffObject
  */
-function fetchData(file, loadedPkg, comparer) {
-  loadedPkg = foundry.utils.deepClone(loadedPkg);
+function fetchData(file, current, comparer) {
+  const loadedPkg = foundry.utils.deepClone(current);
   fetch(file, {
     method: 'GET',
     cache: 'no-cache',
