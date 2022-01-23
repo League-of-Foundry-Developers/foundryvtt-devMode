@@ -64,8 +64,8 @@ export default function setupDevModeAnchor() {
       if (result.state == 'granted' || result.state == 'prompt') {
         /* write to the clipboard now */
         navigator.clipboard.writeText(toCopy).then(
-          () => ui.notifications.notify('Copied to Clipboard', 'success'),
-          () => ui.notifications.notify('Could not copy to Clipboard', 'error'),
+          () => ui.notifications.notify(game.i18n.localize('DEV.clipboard.success'), 'success'),
+          () => ui.notifications.notify(game.i18n.localize('DEV.clipboard.failed'), 'error'),
         );
       }
     });

@@ -10,8 +10,8 @@ export class DevModePerformance {
       if (result.state == 'granted' || result.state == 'prompt') {
         /* write to the clipboard now */
         navigator.clipboard.writeText(toCopy).then(
-          () => ui.notifications.notify('DEV.clipboard.success', 'success'),
-          () => ui.notifications.notify('DEV.clipboard.failed', 'error'),
+          () => ui.notifications.notify(game.i18n.localize('DEV.clipboard.success'), 'success'),
+          () => ui.notifications.notify(game.i18n.localize('DEV.clipboard.failed'), 'error'),
         );
       }
     });
