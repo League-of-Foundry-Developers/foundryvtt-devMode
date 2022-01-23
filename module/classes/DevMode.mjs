@@ -1,7 +1,10 @@
+import { DevModePerformance } from './DevModePerformance.mjs';
+
 export class DevMode {
   static API = {
     registerPackageDebugFlag: this.registerPackageDebugFlag.bind(this),
     getPackageDebugValue: this.getPackageDebugValue.bind(this),
+    runPerformanceTest: DevModePerformance.actorCRUDTest,
   };
 
   static LogLevel = {

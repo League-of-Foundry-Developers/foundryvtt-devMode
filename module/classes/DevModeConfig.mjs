@@ -1,4 +1,5 @@
 import { DevMode } from './DevMode.mjs';
+import { DevModePerformance } from './DevModePerformance.mjs';
 
 export class DevModeConfig extends FormApplication {
   static get defaultOptions() {
@@ -180,6 +181,20 @@ export class DevModeConfig extends FormApplication {
         await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug, {});
         await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides, CONFIG.debug);
         window.location.reload();
+      }
+
+      if (event.currentTarget.className === 'perf-action') {
+        event.preventDefault();
+
+        switch (event.currentTarget?.dataset?.action) {
+          case 'actorCRUD': {
+            const inputVal = html.find('input[name="actorCrudIterations"]').val();
+            console.log('inputVal', inputVal);
+            return DevModePerformance.actorCRUDTest(inputVal || undefined);
+          }
+          default:
+            return;
+        }
       }
     });
   }

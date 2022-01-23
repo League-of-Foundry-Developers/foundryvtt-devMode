@@ -29,6 +29,7 @@
     <nav class="sheet-tabs tabs">
       <a class='item' data-tab='config'>{{localize 'DEV.configMenu.ConfigDebug'}}</a>
       <a class='item' data-tab='packages'>{{localize 'DEV.configMenu.PackageSpecific'}}</a>
+      <a class='item' data-tab='performance'>{{localize 'DEV.configMenu.PerformanceTesting'}}</a>
     </nav>
 
     <section class='tab' data-tab='config'>
@@ -49,6 +50,12 @@
       {{else}}
       <p class="notes">{{localize 'DEV.configMenu.None'}}</p>
       {{/each}}
+
+
+      <div class="flexrow">
+        <button type='submit'><i class="fas fa-save"></i> {{localize 'SETTINGS.Save'}}</button>
+        <button type='button' data-action="reset"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
+      </div>
     </section>
 
     <section class='tab' data-tab='packages'>
@@ -67,11 +74,28 @@
       {{else}}
       <p class="notes">{{localize 'DEV.configMenu.None'}}</p>
       {{/each}}
+
+
+      <div class="flexrow">
+        <button type='submit'><i class="fas fa-save"></i> {{localize 'SETTINGS.Save'}}</button>
+        <button type='button' data-action="reset"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
+      </div>
+    </section>
+
+    <section class='tab' data-tab='performance'>
+      <p class="notes">{{localize 'DEV.configMenu.performance.hint'}}</p>
+
+      <h2>{{localize
+        'DEV.configMenu.performance.actorCRUD.label'}}</h2>
+      <div class="flexrow form-group">
+        <label class="flexrow flex3" style="gap: 1em">
+          {{localize 'DEV.iterations'}}
+          <input type="number" name="actorCrudIterations" placeholder="1000" class="form-fields">
+        </label>
+        <button class="perf-action" data-action="actorCRUD">{{localize "DEV.configMenu.performance.run"}}</button>
+      </div>
+      <p class="notes">{{localize 'DEV.configMenu.performance.actorCRUD.hint'}}</p>
     </section>
   </div>
 
-  <div class="flexrow">
-    <button type='submit'><i class="fas fa-save"></i> {{localize 'SETTINGS.Save'}}</button>
-    <button type='button' data-action="reset"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
-  </div>
 </form>
