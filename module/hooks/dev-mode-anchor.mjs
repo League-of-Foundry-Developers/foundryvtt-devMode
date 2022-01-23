@@ -16,9 +16,11 @@ export default function setupDevModeAnchor() {
   const devModeTag = (relevantId, collection) => `
   <div class="dev-mode-tag">
     ${relevantId}
-    <div class="dev-mode-tag-actions" ${idAttribute}="${relevantId}" data-collection="${collection}">
+    <div class="dev-mode-tag-actions"
+    ${idAttribute}="${relevantId}"
+    ${collection ? `data-collection="${collection}"` : ''}>
       <button class="dev-mode-copy" title=""><i class="far fa-copy"></i></button>
-      <button class="dev-mode-print" title=""><i class="fa fa-terminal"></i></button>
+      ${collection ? '<button class="dev-mode-print" title=""><i class="fa fa-terminal"></i></button>' : ''}
     </div>
   </div>
   `;
@@ -48,6 +50,23 @@ export default function setupDevModeAnchor() {
 
     html.append(devModeTag(chatMessage.id, 'messages'));
     html.addClass('dev-mode-anchor');
+  });
+
+  Hooks.on('renderCompendium', async (compendium, html) => {
+    if (!game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.showCompendiumIds)) {
+      return;
+    }
+
+    DevMode.log(false, 'renderCompendium', compendium, {
+      idAttribute,
+    });
+
+    html.find(`.directory-item[${idAttribute}]`).each(function () {
+      const relevantId = $(this).data()?.[idKey];
+
+      $(this).addClass('dev-mode-anchor');
+      $(this).append(devModeTag(relevantId));
+    });
   });
 
   /**

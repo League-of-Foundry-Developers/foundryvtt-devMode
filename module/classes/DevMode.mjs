@@ -26,6 +26,7 @@ export class DevMode {
     packageSpecificDebug: 'package-specific-debug',
     suppressTooSmall: 'suppress-too-small',
     showDirectoryIds: 'show-directory-ids',
+    showCompendiumIds: 'show-compendium-ids',
     appHeaderButton: 'app-header-button',
     showChatIds: 'show-chat-ids',
     disableTemplateCache: 'disable-template-cache',

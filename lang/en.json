@@ -46,6 +46,10 @@
         "Name": "Show Sidebar Directory Ids?",
         "Hint": "Places a clickable chip on sidebar directory entries to copy the id or print the document to the console. Requires Reload"
       },
+      "show-compendium-ids": {
+        "Name": "Show Compendium Document Ids?",
+        "Hint": "Places a clickable chip on compendium directory entries to copy the id or print the document to the console."
+      },
       "suppress-too-small": {
         "Name": "Suppress Window Size Warning",
         "Hint": "Suppresses the window size warning on startup."

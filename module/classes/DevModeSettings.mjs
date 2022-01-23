@@ -36,6 +36,10 @@ export class DevModeSettings {
       },
     },
     {
+      key: DevMode.SETTINGS.showCompendiumIds,
+      default: true,
+    },
+    {
       key: DevMode.SETTINGS.appHeaderButton,
       default: true,
       onChange: () => {
