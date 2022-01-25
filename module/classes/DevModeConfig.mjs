@@ -1,3 +1,4 @@
+import { performanceInstance } from '../../foundryvtt-devMode.mjs';
 import { DevMode } from './DevMode.mjs';
 import { DevModePerformance } from './DevModePerformance.mjs';
 
@@ -10,6 +11,7 @@ export class DevModeConfig extends FormApplication {
       height: 'auto',
       submitOnChange: false,
       submitOnClose: false,
+      id: 'dev-mode-config',
       tabs: [
         {
           navSelector: '.tabs',
@@ -53,6 +55,14 @@ export class DevModeConfig extends FormApplication {
   }
 
   getData() {
+    const performanceData = {
+      load: performanceInstance.loadStart,
+      init: performanceInstance.initMark,
+      ready: performanceInstance.readyMark,
+      timeToInit: performanceInstance.initMark - performanceInstance.loadStart,
+      timeToReady: performanceInstance.readyMark - performanceInstance.loadStart,
+    };
+
     const debugOverrideFormData = Object.keys(CONFIG.debug).map((debugKey) => {
       switch (typeof CONFIG.debug[debugKey]) {
         case 'boolean': {
@@ -164,6 +174,7 @@ export class DevModeConfig extends FormApplication {
       packageSpecificDebugFormData,
       debugOverrideFormData,
       overrideConfigDebug: game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.overrideConfigDebug),
+      performanceData,
     };
 
     DevMode.log(false, data, {

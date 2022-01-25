@@ -85,6 +85,17 @@
     <section class='tab' data-tab='performance'>
       <p class="notes">{{localize 'DEV.configMenu.performance.hint'}}</p>
 
+      <h2>Loading Time</h2>
+      <p class="notes">Approximate time it took between devMode's files initializing and the `init` or `ready` hooks
+        firing.</p>
+
+      <dl>
+        <dt>Time to Init</dt>
+        <dd>{{performanceData.timeToInit}} ms</dd>
+        <dt>Time to Ready</dt>
+        <dd>{{performanceData.timeToReady}} ms</dd>
+      </dl>
+
       <h2>{{localize
         'DEV.configMenu.performance.actorCRUD.label'}}</h2>
       <div class="flexrow form-group">
