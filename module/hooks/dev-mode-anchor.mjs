@@ -113,8 +113,7 @@ export default function setupDevModeAnchor() {
         toPrint,
       });
 
-      console.log(toPrint);
-      ui.notifications.notify('Printed to Console', 'success');
+      DevMode.fancyLog(toPrint);
     } catch (e) {
       ui.notifications.notify('Error Printing to Console', 'error');
 

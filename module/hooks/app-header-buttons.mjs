@@ -24,8 +24,7 @@ export default function setupApplicationHeaderPrintButton() {
         icon: 'fa fa-terminal',
         label: '',
         onclick: () => {
-          console.log(app.object);
-          ui.notifications.notify('Printed to Console', 'success');
+          DevMode.fancyLog(app.object);
         },
       });
     }
@@ -33,5 +32,23 @@ export default function setupApplicationHeaderPrintButton() {
 
   hooks.forEach((hookName) => {
     Hooks.on(hookName, callback);
+  });
+
+  // Adds to Compendium Header
+  Hooks.on('getCompendiumHeaderButtons', async (app, buttons) => {
+    if (!game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.appHeaderButton)) {
+      return;
+    }
+
+    if (app.collection) {
+      buttons.unshift({
+        class: 'console-print',
+        icon: 'fa fa-terminal',
+        label: '',
+        onclick: () => {
+          DevMode.fancyLog(app.collection);
+        },
+      });
+    }
   });
 }

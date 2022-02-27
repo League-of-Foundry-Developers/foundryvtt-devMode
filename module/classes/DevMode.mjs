@@ -81,6 +81,19 @@ export class DevMode {
   }
 
   /**
+   * A helper to style the log output more nicely
+   * @param {*} object
+   */
+  static fancyLog(object) {
+    const label = `%cDev Mode | ${object.constructor.name}`;
+    console.group(label, 'font-size: 1.4em');
+    console.dir(object);
+    console.groupEnd(label);
+
+    ui.notifications.notify('Printed to Console', 'success');
+  }
+
+  /**
    * Register a new module specific debug flag
    *
    * @param {string} package   The namespace under which the flag is registered
