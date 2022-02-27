@@ -34,13 +34,23 @@ export default function setupDevModeAnchor() {
       idAttribute,
     });
 
-    html.find(`.directory-item[${idAttribute}]`).each(function () {
-      const relevantId = $(this).data()?.[idKey];
-      const collection = $(this).parents('[data-tab]').data()?.tab;
+    if (directory.tabName === 'compendium') {
+      html.find(`.directory-item[data-pack]`).each(function () {
+        const relevantId = $(this).data()?.pack;
+        const collection = 'packs';
 
-      $(this).addClass('dev-mode-anchor');
-      $(this).append(devModeTag(relevantId, collection));
-    });
+        $(this).addClass('dev-mode-anchor');
+        $(this).append(devModeTag(relevantId, collection));
+      });
+    } else {
+      html.find(`.directory-item[${idAttribute}]`).each(function () {
+        const relevantId = $(this).data()?.[idKey];
+        const collection = $(this).parents('[data-tab]').data()?.tab;
+
+        $(this).addClass('dev-mode-anchor');
+        $(this).append(devModeTag(relevantId, collection));
+      });
+    }
   });
 
   Hooks.on('renderChatMessage', async (chatMessage, html) => {
@@ -73,7 +83,10 @@ export default function setupDevModeAnchor() {
    * Any DOM element with the `.dev-mode-copy` class will look up the tree for an element
    * with `${idAttribute}` attribute and copy that attribute's value when clicked.
    */
-  $('html').on('click', '.dev-mode-copy', function () {
+  $('html').on('click', '.dev-mode-copy', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
     const toCopy = $(this).parents(`[${idAttribute}]`).data()?.[idKey];
     DevMode.log(false, {
       toCopy,
@@ -95,7 +108,10 @@ export default function setupDevModeAnchor() {
    * with `${idAttribute}` and `data-collection` and then print the correct document to
    * console.
    */
-  $('html').on('click', '.dev-mode-print', function () {
+  $('html').on('click', '.dev-mode-print', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
     try {
       const idToPrint = $(this).parents(`[${idAttribute}]`).data()?.[idKey];
 
