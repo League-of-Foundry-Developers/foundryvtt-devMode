@@ -18,7 +18,7 @@
   "flags": {
     "allowBugReporter": true
   },
-  "version": "1.11.0",
+  "version": "1.13.0",
   "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "9",
   "scripts": [],

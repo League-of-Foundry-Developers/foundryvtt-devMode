@@ -85,7 +85,7 @@ export class DevMode {
    * @param {*} object
    */
   static fancyLog(object) {
-    const label = `%cDev Mode | ${object.constructor.name}`;
+    const label = `%c🧙 Dev Mode | ${object.constructor.name}`;
     console.group(label, 'font-size: 1.4em');
     console.dir(object);
     console.groupEnd(label);

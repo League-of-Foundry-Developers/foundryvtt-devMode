@@ -48,7 +48,7 @@
       },
       "show-compendium-ids": {
         "Name": "Show Compendium Document Ids?",
-        "Hint": "Places a clickable chip on compendium directory entries to copy the id or print the document to the console."
+        "Hint": "Places a clickable chip on compendium directory entries to copy the id."
       },
       "suppress-too-small": {
         "Name": "Suppress Window Size Warning",

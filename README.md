@@ -40,18 +40,19 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 
 ## Configuration
 
-| **Name**                     | Description                                                                                                          |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Override CONFIG.debug?       | Whether or not to use the dev-mode override settings for CONFIG.debug flags.                                         |
-| Suppress Window Size Warning | Suppresses the window size warning on startup.                                                                       |
-| Always Unpause               | The game will always unpause when starting.                                                                          |
-| Show Chat Message Ids?       | Places a clickable chip on chat messages to copy the id or print the document to the console.                        |
-| Show Sidebar Directory Ids?  | Places a clickable chip on sidebar directory entries to copy the id or print the document to the console.            |
-| Show App Header Button?      | Places a Header Button on document sheets to print the document to the console.                                      |
-| Disable Template Cache?      | Disables the Foundry Core template cache, allowing any template changes to be picked up when `getTemplate` is rerun. |
-| System JSON Changes (#21)    | Notify about system.json and template.json changes.                                                                  |
-| Module JSON changes (#21)    | Notify about module.json changes on any and all active modules.                                                      |
-| Inspect template.json (#25)  | Does basic checks on template.json for potential issues on load.                                                     |
+| **Name**                      | Description                                                                                                          |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Override CONFIG.debug?        | Whether or not to use the dev-mode override settings for CONFIG.debug flags.                                         |
+| Suppress Window Size Warning  | Suppresses the window size warning on startup.                                                                       |
+| Always Unpause                | The game will always unpause when starting.                                                                          |
+| Show Chat Message Ids?        | Places a clickable chip on chat messages to copy the id or print the document to the console.                        |
+| Show Sidebar Directory Ids?   | Places a clickable chip on sidebar directory entries to copy the id or print the document to the console.            |
+| Show Compendium Document Ids? | Places a clickable chip on compendium directory entries to copy the id.                                              |
+| Show App Header Button?       | Places a Header Button on document sheets and compendium displays to print the document to the console.              |
+| Disable Template Cache?       | Disables the Foundry Core template cache, allowing any template changes to be picked up when `getTemplate` is rerun. |
+| System JSON Changes (#21)     | Notify about system.json and template.json changes.                                                                  |
+| Module JSON changes (#21)     | Notify about module.json changes on any and all active modules.                                                      |
+| Inspect template.json (#25)   | Does basic checks on template.json for potential issues on load.                                                     |
 
 ## API
 
