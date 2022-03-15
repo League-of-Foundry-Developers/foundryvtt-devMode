@@ -45,7 +45,13 @@ export async function inspectSystemTemplate() {
       if (Object.keys(CONFIG[type].sheetClasses[templateSubtype] ?? {}).length === 0)
         reportData.unregistered[type].add(templateSubtype);
 
-      templateData[templateSubtype].templates.forEach(includedSubTemplate => { // ex. Actor.type.templates.*
+      if (templateData[templateSubtype] === undefined) {
+        console.warn(type, "subtype", templateSubtype, "lacks definition");
+        reportData.untemplated[type].add(templateSubtype);
+        return;
+      }
+
+      templateData[templateSubtype].templates?.forEach(includedSubTemplate => { // ex. Actor.type.templates.*
         // Check for used or undefined templates
         if (includedSubTemplate in templateData.templates)
           reportData.used[type].add(includedSubTemplate);
