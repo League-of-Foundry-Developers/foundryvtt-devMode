@@ -195,7 +195,9 @@ export class DevModeConfig extends FormApplication {
             const form  = new FormDataExtended(event.currentTarget.closest('form')).toObject();
             const actorType = form.actorCrudType;
             const iterations = form.actorCrudIterations;
-            return DevModePerformance.actorCRUDTest(actorType, iterations || undefined);
+            const synthetic = form.actorCrudSynthetic;
+            console.log('CRUD', { actorType, iterations, synthetic });
+            return DevModePerformance.actorCRUDTest(actorType, iterations || undefined, synthetic);
           }
           default:
             return;
