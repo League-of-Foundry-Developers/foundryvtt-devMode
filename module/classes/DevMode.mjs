@@ -35,10 +35,6 @@ export class DevMode {
     inspectTemplate: 'inspect-system-template',
   };
 
-  static TEMPLATES = {
-    settings: `modules/${this.MODULE_ID}/templates/settings.hbs`,
-  };
-
   /**
    * Get a package specific debug field
    *

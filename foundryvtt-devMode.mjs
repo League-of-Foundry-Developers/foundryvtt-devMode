@@ -42,9 +42,6 @@ Hooks.once('init', function () {
     devModeConfig.render(true);
   });
 
-  // Preload Handlebars templates
-  loadTemplates(Object.values(flattenObject(DevMode.TEMPLATES)));
-
   libWrapper.register(
     DevMode.MODULE_ID,
     'Game.prototype._displayUsabilityErrors',
