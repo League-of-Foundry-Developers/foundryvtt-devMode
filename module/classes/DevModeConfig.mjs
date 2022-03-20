@@ -23,7 +23,7 @@ export class DevModeConfig extends FormApplication {
   }
 
   get template() {
-    return `modules/${DevMode.MODULE_ID}/templates/settings.hbs`;
+    return DevMode.TEMPLATES.settings;
   }
 
   get packageSpecificDebug() {
