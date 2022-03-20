@@ -17,10 +17,13 @@ export class DevModeConfig extends FormApplication {
           initial: 'config',
         },
       ],
-      template: DevMode.TEMPLATES.settings,
       title: game.i18n.localize(`${DevMode.MODULE_ABBREV}.configMenu.FormTitle`),
       width: 400,
     };
+  }
+
+  get template() {
+    return DevMode.TEMPLATES.settings;
   }
 
   get packageSpecificDebug() {
