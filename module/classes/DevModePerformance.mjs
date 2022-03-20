@@ -17,14 +17,15 @@ export class DevModePerformance {
     });
   }
 
-  static actorCRUDTest = async (iterations = 1000) => {
+  static actorCRUDTest = async (type, iterations = 1000) => {
     console.log('running test with iterations:', `${iterations}`, !!iterations, iterations || 1000);
+    if (!game.system.template.Actor.types.includes(type)) return console.error(type, "is invalid actor type");
     const debugConfig = { ...CONFIG.debug };
     this.resetDebug();
 
     const now = performance.now();
     for (let x = 0; x <= iterations; x++) {
-      const created = await Actor.create({ name: `${x}`, type: 'npc' });
+      const created = await Actor.create({ name: `${x}`, type });
       await created.update({ name: 'Actor' + x });
       await created.delete();
       if (x % 10 == 0) SceneNavigation.displayProgressBar({ label: 'Test Progress', pct: (x / iterations) * 100 });
