@@ -188,9 +188,9 @@ export class DevModeConfig extends FormApplication {
 
         switch (event.currentTarget?.dataset?.action) {
           case 'actorCRUD': {
-            const inputVal = html.find('input[name="actorCrudIterations"]').val();
-            console.log('inputVal', inputVal);
-            return DevModePerformance.actorCRUDTest(inputVal || undefined);
+            const form  = new FormDataExtended(event.currentTarget.closest('form')).toObject();
+            const iterations = form.actorCrudIterations;
+            return DevModePerformance.actorCRUDTest(iterations || undefined);
           }
           default:
             return;
