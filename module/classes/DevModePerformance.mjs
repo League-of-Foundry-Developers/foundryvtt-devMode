@@ -17,18 +17,17 @@ export class DevModePerformance {
     });
   }
 
-  static actorCRUDTest = async (type, iterations = 1000, synthetic) => {
+  static actorCRUDTest = async (type, iterations = 1000) => {
     if (!game.system.template.Actor.types.includes(type)) return console.error(type, "is invalid actor type");
     // Force some defaults
     iterations ||= 1000;
-    synthetic ??= true;
     console.log(`Running CRUD test on "${type}" type with ${iterations} iterations`);
     const debugConfig = { ...CONFIG.debug };
     this.resetDebug();
 
     const now = performance.now();
     for (let x = 0; x <= iterations; x++) {
-      const created = await Actor.create({ name: `${x}`, type }, { temporary: synthetic });
+      const created = await Actor.create({ name: `${x}`, type });
       await created.update({ name: 'Actor' + x });
       await created.delete();
       if (x % 10 == 0) SceneNavigation.displayProgressBar({ label: 'Test Progress', pct: (x / iterations) * 100 });
