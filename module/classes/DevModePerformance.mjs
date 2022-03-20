@@ -27,12 +27,12 @@ export class DevModePerformance {
       const created = await Actor.create({ name: `${x}`, type: 'npc' });
       await created.update({ name: 'Actor' + x });
       await created.delete();
-      if (x % 10 == 0) SceneNavigation.displayProgressBar({ label: 'Test Progress', pct: (x / iterations) * 100 });
+      if (x % 10 == 0) SceneNavigation.displayProgressBar({ label: 'Test Progress', pct: Math.roundDecimals((x / iterations) * 100, 1) });
     }
 
     const end = performance.now();
 
-    const output = `Total: ${end - now}ms. Per: ${(end - now) / iterations}ms.`;
+    const output = `Total: ${Math.roundDecimals(end - now, 3)}ms. Per: ${Math.roundDecimals((end - now) / iterations, 3)}ms.`;
 
     // reset config debug
     CONFIG.debug = debugConfig;
