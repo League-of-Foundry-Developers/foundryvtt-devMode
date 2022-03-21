@@ -1,7 +1,6 @@
 {
   "DEV": {
     "iterations": "Iterations",
-    "synthetic": "Synthetic",
     "clipboard": {
       "copy": "Copy to Clipboard",
       "success": "Copied to Clipboard",
