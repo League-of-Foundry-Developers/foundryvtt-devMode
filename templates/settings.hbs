@@ -85,12 +85,18 @@
     <section class='tab' data-tab='performance'>
       <p class="notes">{{localize 'DEV.configMenu.performance.hint'}}</p>
 
-      <h2>{{localize
-        'DEV.configMenu.performance.actorCRUD.label'}}</h2>
+      <h2>{{localize 'DEV.configMenu.performance.actorCRUD.label'}}</h2>
+      <div class='flexrow form-group'>
+        <label>{{localize "Type"}}</label>
+        <select name='actorCrud.type' data-dtype='String'>
+          {{selectOptions actorTypes localize=true}}
+        </select>
+      </div>
       <div class="flexrow form-group">
         <label class="flexrow flex3" style="gap: 1em">
           {{localize 'DEV.iterations'}}
-          <input type="number" name="actorCrudIterations" placeholder="1000" class="form-fields">
+          <input type="number" data-dtype="Number" min="1" step="1" name="actorCrud.iterations" placeholder="1000"
+            class="form-fields">
         </label>
         <button class="perf-action" data-action="actorCRUD">{{localize "DEV.configMenu.performance.run"}}</button>
       </div>

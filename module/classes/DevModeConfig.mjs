@@ -167,6 +167,10 @@ export class DevModeConfig extends FormApplication {
       packageSpecificDebugFormData,
       debugOverrideFormData,
       overrideConfigDebug: game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.overrideConfigDebug),
+      actorTypes: game.system.template.Actor.types.reduce((types, type) => {
+        types[type] = `ACTOR.Type${type.capitalize()}`;
+        return types;
+      }, {}),
     };
 
     DevMode.log(false, data, {
@@ -191,9 +195,8 @@ export class DevModeConfig extends FormApplication {
 
         switch (event.currentTarget?.dataset?.action) {
           case 'actorCRUD': {
-            const inputVal = html.find('input[name="actorCrudIterations"]').val();
-            console.log('inputVal', inputVal);
-            return DevModePerformance.actorCRUDTest(inputVal || undefined);
+            const formData = expandObject(new FormDataExtended(event.currentTarget.closest('form')).toObject());
+            return DevModePerformance.actorCRUDTest(formData.actorCrud);
           }
           default:
             return;
