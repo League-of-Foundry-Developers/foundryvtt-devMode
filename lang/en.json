@@ -11,6 +11,7 @@
       "ConfigDebug": "CONFIG.debug Overrides",
       "PackageSpecific": "Package Specific Debugging",
       "PerformanceTesting": "Performance",
+      "CompatibilityWarnings": "Compatibility Warnings",
       "LogLevel": "Select Log Level",
       "DebugMode": "Enable Debug Mode",
       "Hint": "Packages can register a debug mode setting which will appear below. Checking it or setting a log level will enable more detailed output in the console.",
@@ -22,6 +23,12 @@
           "label": "Actor CRUD Test",
           "hint": "Runs Actor.create, update, and delete repeatedly, outputs how long the total operation takes, as well as average per operation."
         }
+      },
+      "compatibility": {
+        "mode": "Compatibility Mode",
+        "includePatterns": "Includes",
+        "excludePatterns": "Excludes",
+        "hint": "Enter a comma-separated list of regular expressions to match against the compatibility warning logs. Any log that matches the included patterns will be included, and any log that matches the exclude patterns will be excluded."
       }
     },
     "settings": {
