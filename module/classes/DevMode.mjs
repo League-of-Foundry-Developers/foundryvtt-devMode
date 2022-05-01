@@ -192,4 +192,25 @@ export class DevMode {
       this.log(false, 'setDebugOverride', debugKey, 'to', relevantSetting);
     });
   }
+
+  /**
+   * Sets CONFIG.compatibility value to match the value stored in settings
+   */
+  static setCompatibilityWarnings() {
+	const compatibilityWarnings = game.settings.get(this.MODULE_ID, this.SETTINGS.compatibilityWarnings);
+	if (isObjectEmpty(compatibilityWarnings)) return;
+
+    // set all compatibility values to match settings
+    CONFIG.compatibility.mode = compatibilityWarnings.mode;
+    CONFIG.compatibility.includePatterns = compatibilityWarnings.includePatterns
+	  ?.split(',')
+	  .filter(s => String(s))
+	  .map(s => new RegExp(s.trim()));
+	CONFIG.compatibility.excludePatterns = compatibilityWarnings.excludePatterns
+	  ?.split(',')
+	  .filter(s => String(s))
+	  .map(s => new RegExp(s.trim()));
+
+	this.log(false, 'setCompatibilityWarnings', compatibilityWarnings);
+  }
 }
