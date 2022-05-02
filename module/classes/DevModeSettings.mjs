@@ -111,7 +111,11 @@ export class DevModeSettings {
 
     // register the setting where we'll store all compatibility warning Flags
     game.settings.register(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings, {
-      default: CONFIG.compatibility,
+      default: {
+        mode: CONST.COMPATIBILITY_MODES?.WARNING ?? 1,
+        includePatterns: "",
+        excludePatterns: "",
+      },
       type: Object,
       scope: 'client',
       config: false,

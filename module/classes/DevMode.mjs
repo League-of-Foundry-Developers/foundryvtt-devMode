@@ -199,7 +199,7 @@ export class DevMode {
    */
   static setCompatibilityWarnings() {
 	const compatibilityWarnings = game.settings.get(this.MODULE_ID, this.SETTINGS.compatibilityWarnings);
-	if (isObjectEmpty(compatibilityWarnings)) return;
+	if (isObjectEmpty(compatibilityWarnings) || !CONFIG.compatibility) return;
 
     // set all compatibility values to match settings
     CONFIG.compatibility.mode = compatibilityWarnings.mode;

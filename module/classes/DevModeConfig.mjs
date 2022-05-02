@@ -168,6 +168,7 @@ export class DevModeConfig extends FormApplication {
     });
 
     const compatibilityWarningsData = {
+      enabled: game.release.generation >= 10,
       modes: CONST.COMPATIBILITY_MODES,
       ...this.compatibilityWarnings,
     };

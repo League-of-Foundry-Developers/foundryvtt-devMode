@@ -30,7 +30,9 @@
       <a class='item' data-tab='config'>{{localize 'DEV.configMenu.ConfigDebug'}}</a>
       <a class='item' data-tab='packages'>{{localize 'DEV.configMenu.PackageSpecific'}}</a>
       <a class='item' data-tab='performance'>{{localize 'DEV.configMenu.PerformanceTesting'}}</a>
+      {{#if compatibilityWarningsData.enabled}}
       <a class='item' data-tab='compatibility'>{{localize 'DEV.configMenu.CompatibilityWarnings'}}</a>
+      {{/if}}
     </nav>
 
     <section class='tab' data-tab='config'>
@@ -104,6 +106,7 @@
       <p class="notes">{{localize 'DEV.configMenu.performance.actorCRUD.hint'}}</p>
     </section>
 
+    {{#if compatibilityWarningsData.enabled}}
     <section class='tab' data-tab='compatibility'>
       <div class="flexrow form-group">
         <label class="flexrow flex3" style="gap: 1em">
@@ -131,6 +134,7 @@
         <button type='button' data-action="reset"><i class="fas fa-undo"></i> {{localize 'SETTINGS.Reset'}}</button>
       </div>
     </section>
+    {{/if}}
   </div>
 
 </form>
