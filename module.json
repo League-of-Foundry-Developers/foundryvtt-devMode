@@ -20,7 +20,7 @@
   },
   "version": "1.13.0",
   "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
+  "compatibleCoreVersion": "10",
   "scripts": [],
   "esmodules": ["foundryvtt-devMode.mjs"],
   "styles": ["foundryvtt-devMode.css"],

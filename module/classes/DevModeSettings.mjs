@@ -109,6 +109,19 @@ export class DevModeSettings {
       onChange: () => DevMode.setDebugOverrides(),
     });
 
+    // register the setting where we'll store all compatibility warning Flags
+    game.settings.register(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings, {
+      default: {
+        mode: CONST.COMPATIBILITY_MODES?.WARNING ?? 1,
+        includePatterns: "",
+        excludePatterns: "",
+      },
+      type: Object,
+      scope: 'client',
+      config: false,
+      onChange: () => DevMode.setCompatibilityWarnings(),
+    });
+
     this.booleanSettings.forEach(({ key, ...rest }) => {
       game.settings.register(DevMode.MODULE_ID, key, {
         name: `${DevMode.MODULE_ABBREV}.settings.${key}.Name`,

@@ -34,6 +34,11 @@ export class DevModeConfig extends FormApplication {
     return game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides);
   }
 
+  get compatibilityWarnings() {
+    const settings = game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings)
+    return isObjectEmpty(settings) ? CONFIG.compatibility : settings;
+  }
+
   /**
    * A helper to generate the names and hints of any debug key which has those defined
    *
@@ -162,6 +167,12 @@ export class DevModeConfig extends FormApplication {
       isCheckbox: true,
     });
 
+    const compatibilityWarningsData = {
+      enabled: game.release.generation >= 10,
+      modes: CONST.COMPATIBILITY_MODES,
+      ...this.compatibilityWarnings,
+    };
+
     const data = {
       ...super.getData(),
       packageSpecificDebugFormData,
@@ -171,11 +182,13 @@ export class DevModeConfig extends FormApplication {
         types[type] = `ACTOR.Type${type.capitalize()}`;
         return types;
       }, {}),
+      compatibilityWarningsData,
     };
 
     DevMode.log(false, data, {
       debugOverrides: this.debugOverrides,
       packageSpecificDebug: this.packageSpecificDebug,
+      compatibilityWarnings: this.compatibilityWarnings,
     });
     return data;
   }
@@ -187,6 +200,7 @@ export class DevModeConfig extends FormApplication {
       if (event.currentTarget?.dataset?.action === 'reset') {
         await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug, {});
         await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides, CONFIG.debug);
+        await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings, {});
         window.location.reload();
       }
 
@@ -206,11 +220,11 @@ export class DevModeConfig extends FormApplication {
   }
 
   async _updateObject(ev, formData) {
-    const { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug } = expandObject(formData);
+    const { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug, compatibilityWarnings } = expandObject(formData);
 
     DevMode.log(false, {
       formData,
-      data: { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug },
+      data: { packageSpecificDebugFormData, debugOverrideFormData, overrideConfigDebug, compatibilityWarnings },
     });
 
     const newPackageSpecificDebug = mergeObject(this.packageSpecificDebug, packageSpecificDebugFormData, {
@@ -229,14 +243,24 @@ export class DevModeConfig extends FormApplication {
       recursive: true,
     });
 
+		const newCompatibilityWarnings = mergeObject(this.compatibilityWarnings, compatibilityWarnings, {
+			inplace: false,
+			insertKeys: true,
+			insertValues: true,
+			overwrite: true,
+			recursive: true,
+		});
+
     DevMode.log(true, 'setting settings', {
       newPackageSpecificDebug,
       newDebugOverrides,
+      newCompatibilityWarnings,
     });
 
     await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.overrideConfigDebug, overrideConfigDebug);
     await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.packageSpecificDebug, newPackageSpecificDebug);
     await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.debugOverrides, newDebugOverrides);
+    await game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings, newCompatibilityWarnings);
 
     this.close();
   }

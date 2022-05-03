@@ -30,6 +30,8 @@ Hooks.once('init', function () {
 
   DevMode.setDebugOverrides();
 
+  DevMode.setCompatibilityWarnings();
+
   game.modules.get(DevMode.MODULE_ID).api = DevMode.API;
 
   // register any modules as they init
