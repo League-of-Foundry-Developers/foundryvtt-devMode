@@ -1,6 +1,5 @@
 import { DevMode } from './DevMode.mjs';
 import { DevModeConfig } from './DevModeConfig.mjs';
-import { AutoOpenConfig } from './AutoOpenConfig.mjs';
 
 export class DevModeSettings {
   static debouncedReload = foundry.utils.debounce(() => {
