@@ -39,6 +39,10 @@ export class DevModeConfig extends FormApplication {
     return isObjectEmpty(settings) ? CONFIG.compatibility : settings;
   }
 
+  get autoOpenDocuments() {
+    return game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.autoOpenDocuments);
+  }
+
   /**
    * A helper to generate the names and hints of any debug key which has those defined
    *
@@ -182,6 +186,10 @@ export class DevModeConfig extends FormApplication {
         types[type] = `ACTOR.Type${type.capitalize()}`;
         return types;
       }, {}),
+      autoOpenDocuments: this.autoOpenDocuments,
+      documentsWithSheets: CONST.DOCUMENT_TYPES.filter(x => Object.values(CONFIG[x].sheetClasses)
+        .find(sc => !foundry.utils.isObjectEmpty(sc)))
+        .reduce((types, type) => { types[type] = type; return types; }, {}),
       compatibilityWarningsData,
     };
 
@@ -189,6 +197,7 @@ export class DevModeConfig extends FormApplication {
       debugOverrides: this.debugOverrides,
       packageSpecificDebug: this.packageSpecificDebug,
       compatibilityWarnings: this.compatibilityWarnings,
+      autoOpenDocuments: this.autoOpenDocuments,
     });
     return data;
   }
@@ -215,6 +224,21 @@ export class DevModeConfig extends FormApplication {
           default:
             return;
         }
+      }
+
+      if (event.currentTarget?.dataset?.action === "addAutoOpen" || event.currentTarget?.dataset?.action === "deleteAutoOpen") {
+        event.preventDefault();
+        const isDeleting = event.currentTarget?.dataset?.action === "deleteAutoOpen";
+        const type = event.currentTarget.parentElement.querySelector('[name="autoOpen.type"]').value;
+        const id = event.currentTarget.parentElement.querySelector('[name="autoOpen.id"]').value;
+        const element = { type, id };
+        let autoOpen = this.autoOpenDocuments;
+        if ( isDeleting ) {
+          autoOpen = autoOpen.filter(x => !(x.type == element.type && x.id == element.id));
+        }
+        else autoOpen.push(element);
+        game.settings.set(DevMode.MODULE_ID, DevMode.SETTINGS.autoOpenDocuments, autoOpen);
+        this.render();
       }
     });
   }

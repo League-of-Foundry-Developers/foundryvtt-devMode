@@ -1,5 +1,6 @@
 import { DevMode } from './DevMode.mjs';
 import { DevModeConfig } from './DevModeConfig.mjs';
+import { AutoOpenConfig } from './AutoOpenConfig.mjs';
 
 export class DevModeSettings {
   static debouncedReload = foundry.utils.debounce(() => {
@@ -120,6 +121,14 @@ export class DevModeSettings {
       scope: 'client',
       config: false,
       onChange: () => DevMode.setCompatibilityWarnings(),
+    });
+
+    // register the setting where we'll store all the documents to auto-open
+    game.settings.register(DevMode.MODULE_ID, DevMode.SETTINGS.autoOpenDocuments, {
+      default: [],
+      type: Object,
+      scope: 'client',
+      config: false,
     });
 
     this.booleanSettings.forEach(({ key, ...rest }) => {

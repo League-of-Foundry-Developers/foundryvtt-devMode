@@ -7,6 +7,7 @@
       "failed": "Could not copy to Clipboard"
     },
     "configMenu": {
+      "AutoOpen": "Auto Open Documents",
       "FormTitle": "Debug Flag Config",
       "ConfigDebug": "CONFIG.debug Overrides",
       "PackageSpecific": "Package Specific Debugging",
@@ -16,6 +17,9 @@
       "DebugMode": "Enable Debug Mode",
       "Hint": "Packages can register a debug mode setting which will appear below. Checking it or setting a log level will enable more detailed output in the console.",
       "None": "None",
+      "autoOpen": {
+        "hint": "Register Documents that you want to automatically open Sheets for on World load here."
+      },
       "performance": {
         "run": "Run",
         "hint": "This is a set of experimental tests for gauging how well your world/server performs. It can be useful to compare against different configurations on the same hardware (e.g. with and without a module on, etc).",
