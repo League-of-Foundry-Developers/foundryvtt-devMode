@@ -232,7 +232,7 @@ export class DevModeConfig extends FormApplication {
         const type = event.currentTarget.parentElement.querySelector('[name="autoOpen.type"]').value;
         const id = event.currentTarget.parentElement.querySelector('[name="autoOpen.id"]').value;
         const element = { type, id };
-        let autoOpen = this.autoOpenDocuments;
+        let autoOpen = [...this.autoOpenDocuments];
         if ( isDeleting ) {
           autoOpen = autoOpen.filter(x => !(x.type == element.type && x.id == element.id));
         }
