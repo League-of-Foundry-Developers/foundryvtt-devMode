@@ -71,6 +71,6 @@ Hooks.on('ready', () => {
   setupApplicationHeaderPrintButton();
 
   // If Vueport is enabled, it needs a little bit to be ready to render a sheet
-  if ( game.modules.get("vueport")?.active? ) setTimeout(autoOpenDocuments, 1000);
+  if ( game.modules.get("vueport")?.active ) setTimeout(autoOpenDocuments, 1000);
   else autoOpenDocuments();
 });
