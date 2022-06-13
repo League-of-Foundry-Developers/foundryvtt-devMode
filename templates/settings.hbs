@@ -33,6 +33,7 @@
       {{#if compatibilityWarningsData.enabled}}
       <a class='item' data-tab='compatibility'>{{localize 'DEV.configMenu.CompatibilityWarnings'}}</a>
       {{/if}}
+      <a class="item" data-tab='auto-open'>{{localize 'DEV.configMenu.AutoOpen'}}</a>
     </nav>
 
     <section class='tab' data-tab='config'>
@@ -135,6 +136,33 @@
       </div>
     </section>
     {{/if}}
+
+    <section class='tab auto-open' data-tab='auto-open'>
+      <p class="notes">{{localize 'DEV.configMenu.autoOpen.hint'}}</p>
+
+      <div class="flexrow">
+        <b>{{localize "Type"}}</b>
+        <b>{{localize "Id"}}</b>
+      </div>
+
+      {{#each this.autoOpenDocuments as |autoopen a|}}
+        <div class='flexrow form-group add-auto-open'>
+          <select name='autoOpen.type' data-dtype='String' disabled>
+            <option value="{{autoopen.type}}" selected>{{autoopen.type}}</option>
+          </select>
+          <input name='autoOpen.id' data-dtype='String' value="{{autoopen.id}}" disabled />
+          <button class="delete-auto-open-action" data-action="deleteAutoOpen">Delete</button>
+        </div>
+      {{/each}}
+
+      <div class='flexrow form-group add-auto-open'>
+        <select name='autoOpen.type' data-dtype='String'>
+          {{selectOptions documentsWithSheets localize=true}}
+        </select>
+        <input name='autoOpen.id' data-dtype='String' />
+        <button class="add-auto-open-action" data-action="addAutoOpen">Add</button>
+      </div>
+    </section>
   </div>
 
 </form>

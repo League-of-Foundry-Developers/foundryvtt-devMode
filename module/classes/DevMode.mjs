@@ -34,6 +34,7 @@ export class DevMode {
     jsonDiffSystem: 'json-diff-system',
     jsonDiffModules: 'json-diff-modules',
     inspectTemplate: 'inspect-system-template',
+    autoOpenDocuments: 'auto-open-documents'
   };
 
   static TEMPLATES = {

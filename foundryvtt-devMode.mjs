@@ -8,6 +8,7 @@ import { setupJSONDiff } from './module/hooks/json-changes.mjs';
 import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilityErrors.mjs';
 import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
 import { libWrapper } from './module/shim.mjs';
+import autoOpenDocuments from "./module/hooks/auto-open-documents.mjs";
 
 Handlebars.registerHelper('dev-concat', (...args) => {
   DevMode.log(false, args);
@@ -68,4 +69,8 @@ Hooks.on('ready', () => {
   inspectSystemTemplate();
 
   setupApplicationHeaderPrintButton();
+
+  // If Vueport is enabled, it needs a little bit to be ready to render a sheet
+  if ( game.modules.get("vueport").active ) setTimeout(autoOpenDocuments, 1000);
+  else autoOpenDocuments();
 });

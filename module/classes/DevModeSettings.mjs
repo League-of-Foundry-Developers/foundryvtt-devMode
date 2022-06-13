@@ -122,6 +122,14 @@ export class DevModeSettings {
       onChange: () => DevMode.setCompatibilityWarnings(),
     });
 
+    // register the setting where we'll store all the documents to auto-open
+    game.settings.register(DevMode.MODULE_ID, DevMode.SETTINGS.autoOpenDocuments, {
+      default: [],
+      type: Object,
+      scope: 'client',
+      config: false,
+    });
+
     this.booleanSettings.forEach(({ key, ...rest }) => {
       game.settings.register(DevMode.MODULE_ID, key, {
         name: `${DevMode.MODULE_ABBREV}.settings.${key}.Name`,
