@@ -19,6 +19,7 @@ export class DevModeConfig extends FormApplication {
       ],
       title: game.i18n.localize(`${DevMode.MODULE_ABBREV}.configMenu.FormTitle`),
       width: 400,
+      resizable: true,
     };
   }
 
