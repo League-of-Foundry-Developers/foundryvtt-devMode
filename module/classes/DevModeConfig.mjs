@@ -37,7 +37,7 @@ export class DevModeConfig extends FormApplication {
 
   get compatibilityWarnings() {
     const settings = game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings)
-    return isObjectEmpty(settings) ? CONFIG.compatibility : settings;
+    return isObjectEmpty(settings) ? CONFIG.compatibility ?? {} : settings;
   }
 
   get autoOpenDocuments() {
