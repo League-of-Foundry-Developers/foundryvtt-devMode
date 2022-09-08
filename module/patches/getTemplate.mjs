@@ -12,7 +12,7 @@ export default function setupDisableTemplateCache() {
    * is rendered.
    * AKA: Poor Man's Hot-Reload
    */
-  async function _devModeGetTemplate(path, id) {
+  async function _devModeGetTemplate(path, ...args) {
     // eslint-disable-next-line
     if (_templateCache.hasOwnProperty(path)) {
       DevMode.log(false, 'Deleting cached template: ', path);
