@@ -21,7 +21,7 @@ export default function setupDisableTemplateCache() {
       delete _templateCache[path];
     }
 
-    return _getTemplate(path, id);
+    return _getTemplate(path, ...args);
   }
 
   // eslint-disable-next-line
