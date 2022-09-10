@@ -11,6 +11,8 @@ export default function setupApplicationHeaderPrintButton() {
     'getItemSheetHeaderButtons',
     'getActorSheetHeaderButtons',
     'getTokenConfigHeaderButtons',
+
+    'getDevModeHeaderButtons', // A custom hook that can be called to add the button to other apps that manage an object
   ];
 
   const callback = async (app, buttons) => {
