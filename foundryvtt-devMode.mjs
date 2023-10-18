@@ -5,7 +5,6 @@ import setupApplicationHeaderPrintButton from './module/hooks/app-header-buttons
 import setupDevModeAnchor from './module/hooks/dev-mode-anchor.mjs';
 import { inspectSystemTemplate } from './module/hooks/inspect-template.mjs';
 import { setupJSONDiff } from './module/hooks/json-changes.mjs';
-import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
 import autoOpenDocuments from "./module/hooks/auto-open-documents.mjs";
 
 Handlebars.registerHelper('dev-concat', (...args) => {
@@ -42,10 +41,6 @@ Hooks.once('init', function () {
     const devModeConfig = new DevModeConfig();
     devModeConfig.render(true);
   });
-
-  if (game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.disableTemplateCache)) {
-    setupDisableTemplateCache();
-  }
 
   setupDevModeAnchor();
 });

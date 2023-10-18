@@ -41,10 +41,6 @@
         "Label": "Debug Flags",
         "Hint": "Every core debug flag and modules you have activated might register flags for their own debugging which you can toggle here."
       },
-      "disable-template-cache": {
-        "Name": "Disable Template Cache?",
-        "Hint": "Disables the Foundry Core template cache, allowing any template changes to be picked up when `getTemplate` is rerun(Poor man's Hot-reload for handlebars files). Requires Reload"
-      },
       "override-config-debug": {
         "Name": "Override CONFIG.debug?",
         "Hint": "Whether or not to use the dev-mode override settings for CONFIG.debug flags. Setting to false will cause a reload."

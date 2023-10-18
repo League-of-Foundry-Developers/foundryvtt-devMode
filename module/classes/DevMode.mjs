@@ -29,7 +29,6 @@ export class DevMode {
     showCompendiumIds: 'show-compendium-ids',
     appHeaderButton: 'app-header-button',
     showChatIds: 'show-chat-ids',
-    disableTemplateCache: 'disable-template-cache',
     jsonDiffSystem: 'json-diff-system',
     jsonDiffModules: 'json-diff-modules',
     inspectTemplate: 'inspect-system-template',

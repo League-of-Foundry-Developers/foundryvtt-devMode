@@ -16,7 +16,6 @@ A swiss army knife for development tooling in Foundry VTT.
 - Provides a UI to toggle these flags on and off, preserving this selection in the user's client settings.
 - Provides a button to copy and print documents to console.
 - Provides some utilities to detect JSON configuration changes or errors.
-- Allows developer to disable the template cache for a "poor man's hot reload" for handlebars files.
 
 ![Demo of the Core Config overrides.](docs/debug-mode-core-config.png)
 
@@ -48,7 +47,6 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 | Show Sidebar Directory Ids?   | Places a clickable chip on sidebar directory entries to copy the id or print the document to the console.            |
 | Show Compendium Document Ids? | Places a clickable chip on compendium directory entries to copy the id.                                              |
 | Show App Header Button?       | Places a Header Button on document sheets and compendium displays to print the document to the console.              |
-| Disable Template Cache?       | Disables the Foundry Core template cache, allowing any template changes to be picked up when `getTemplate` is rerun. |
 | System JSON Changes (#21)     | Notify about system.json and template.json changes.                                                                  |
 | Module JSON changes (#21)     | Notify about module.json changes on any and all active modules.                                                      |
 | Inspect template.json (#25)   | Does basic checks on template.json for potential issues on load.                                                     |
