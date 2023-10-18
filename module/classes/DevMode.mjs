@@ -25,7 +25,6 @@ export class DevMode {
     overrideConfigDebug: 'override-config-debug',
     packageSpecificDebug: 'package-specific-debug',
     compatibilityWarnings: 'compatibility-warnings',
-    suppressTooSmall: 'suppress-too-small',
     showDirectoryIds: 'show-directory-ids',
     showCompendiumIds: 'show-compendium-ids',
     appHeaderButton: 'app-header-button',

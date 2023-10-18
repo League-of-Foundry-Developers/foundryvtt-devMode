@@ -43,7 +43,6 @@ https://github.com/League-of-Foundry-Developers/foundryvtt-devMode/releases/late
 | **Name**                      | Description                                                                                                          |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Override CONFIG.debug?        | Whether or not to use the dev-mode override settings for CONFIG.debug flags.                                         |
-| Suppress Window Size Warning  | Suppresses the window size warning on startup.                                                                       |
 | Always Unpause                | The game will always unpause when starting.                                                                          |
 | Show Chat Message Ids?        | Places a clickable chip on chat messages to copy the id or print the document to the console.                        |
 | Show Sidebar Directory Ids?   | Places a clickable chip on sidebar directory entries to copy the id or print the document to the console.            |

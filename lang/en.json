@@ -61,10 +61,6 @@
         "Name": "Show Compendium Document Ids?",
         "Hint": "Places a clickable chip on compendium directory entries to copy the id."
       },
-      "suppress-too-small": {
-        "Name": "Suppress Window Size Warning",
-        "Hint": "Suppresses the window size warning on startup."
-      },
       "always-unpause": {
         "Name": "Always Unpause",
         "Hint": "The game will always unpause when starting."

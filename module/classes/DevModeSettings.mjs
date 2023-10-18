@@ -17,7 +17,6 @@ export class DevModeSettings {
         DevMode.setDebugOverrides();
       },
     },
-    { key: DevMode.SETTINGS.suppressTooSmall, default: true },
     { key: DevMode.SETTINGS.alwaysUnpause, default: true },
     {
       key: DevMode.SETTINGS.showChatIds,

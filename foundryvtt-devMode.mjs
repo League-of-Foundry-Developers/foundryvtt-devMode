@@ -5,9 +5,7 @@ import setupApplicationHeaderPrintButton from './module/hooks/app-header-buttons
 import setupDevModeAnchor from './module/hooks/dev-mode-anchor.mjs';
 import { inspectSystemTemplate } from './module/hooks/inspect-template.mjs';
 import { setupJSONDiff } from './module/hooks/json-changes.mjs';
-import { _devModeDisplayUsabilityErrors } from './module/patches/displayUsabilityErrors.mjs';
 import setupDisableTemplateCache from './module/patches/getTemplate.mjs';
-import { libWrapper } from './module/shim.mjs';
 import autoOpenDocuments from "./module/hooks/auto-open-documents.mjs";
 
 Handlebars.registerHelper('dev-concat', (...args) => {
@@ -44,13 +42,6 @@ Hooks.once('init', function () {
     const devModeConfig = new DevModeConfig();
     devModeConfig.render(true);
   });
-
-  libWrapper.register(
-    DevMode.MODULE_ID,
-    'Game.prototype._displayUsabilityErrors',
-    _devModeDisplayUsabilityErrors,
-    'MIXED',
-  );
 
   if (game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.disableTemplateCache)) {
     setupDisableTemplateCache();
