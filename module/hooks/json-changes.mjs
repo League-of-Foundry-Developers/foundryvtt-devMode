@@ -62,7 +62,7 @@ function fetchData(file, current, comparer) {
       else {
         // Use plain diffObject if no comparer is specified
         const diff = basicPackageDiff(fetchedPkg, loadedPkg);
-        if (!isObjectEmpty(diff)) {
+        if (!foundry.utils.isEmpty(diff)) {
           result.details = { diff };
           result.changed = true;
         }
@@ -126,13 +126,13 @@ function cullingComparer(file, fetchedPkg, loadedPkg, result = {}) {
   for (let [key, value] of Object.entries(diff)) {
     if (value instanceof Array) {
       const aDiff = diffObject(value, loadedPkg[key]);
-      if (isObjectEmpty(aDiff))
+      if (foundry.utils.isEmpty(aDiff))
         delete diff[key];
     }
   }
 
-  result.changed = !isObjectEmpty(diff);
-  result.deprecations = !isObjectEmpty(deprecations);
+  result.changed = !foundry.utils.isEmpty(diff);
+  result.deprecations = !foundry.utils.isEmpty(deprecations);
   result.details = { diff, deprecations };
 
   return result;

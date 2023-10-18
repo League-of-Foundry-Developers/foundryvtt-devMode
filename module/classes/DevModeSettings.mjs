@@ -17,7 +17,6 @@ export class DevModeSettings {
         DevMode.setDebugOverrides();
       },
     },
-    { key: DevMode.SETTINGS.suppressTooSmall, default: true },
     { key: DevMode.SETTINGS.alwaysUnpause, default: true },
     {
       key: DevMode.SETTINGS.showChatIds,
@@ -42,14 +41,6 @@ export class DevModeSettings {
     {
       key: DevMode.SETTINGS.appHeaderButton,
       default: true,
-      onChange: () => {
-        this.debouncedReload();
-        return;
-      },
-    },
-    {
-      key: DevMode.SETTINGS.disableTemplateCache,
-      default: false,
       onChange: () => {
         this.debouncedReload();
         return;

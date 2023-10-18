@@ -25,12 +25,10 @@ export class DevMode {
     overrideConfigDebug: 'override-config-debug',
     packageSpecificDebug: 'package-specific-debug',
     compatibilityWarnings: 'compatibility-warnings',
-    suppressTooSmall: 'suppress-too-small',
     showDirectoryIds: 'show-directory-ids',
     showCompendiumIds: 'show-compendium-ids',
     appHeaderButton: 'app-header-button',
     showChatIds: 'show-chat-ids',
-    disableTemplateCache: 'disable-template-cache',
     jsonDiffSystem: 'json-diff-system',
     jsonDiffModules: 'json-diff-modules',
     inspectTemplate: 'inspect-system-template',
@@ -200,7 +198,7 @@ export class DevMode {
    */
   static setCompatibilityWarnings() {
 	const compatibilityWarnings = game.settings.get(this.MODULE_ID, this.SETTINGS.compatibilityWarnings);
-	if (isObjectEmpty(compatibilityWarnings) || !CONFIG.compatibility) return;
+	if (foundry.utils.isEmpty(compatibilityWarnings) || !CONFIG.compatibility) return;
 
     // set all compatibility values to match settings
     CONFIG.compatibility.mode = compatibilityWarnings.mode;
