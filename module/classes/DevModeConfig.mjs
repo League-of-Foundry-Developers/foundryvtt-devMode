@@ -37,7 +37,7 @@ export class DevModeConfig extends FormApplication {
 
   get compatibilityWarnings() {
     const settings = game.settings.get(DevMode.MODULE_ID, DevMode.SETTINGS.compatibilityWarnings)
-    return isObjectEmpty(settings) ? CONFIG.compatibility ?? {} : settings;
+    return foundry.utils.isEmpty(settings) ? CONFIG.compatibility ?? {} : settings;
   }
 
   get autoOpenDocuments() {
@@ -162,7 +162,7 @@ export class DevModeConfig extends FormApplication {
     );
 
     // Add DevMode to the end of the list
-    const devModeData = game.modules.get(DevMode.MODULE_ID).data;
+    const devModeData = game.modules.get(DevMode.MODULE_ID);
 
     packageSpecificDebugFormData.boolean.push({
       name: devModeData.title,
@@ -189,7 +189,7 @@ export class DevModeConfig extends FormApplication {
       }, {}),
       autoOpenDocuments: this.autoOpenDocuments,
       documentsWithSheets: CONST.DOCUMENT_TYPES.filter(x => Object.values(CONFIG[x].sheetClasses)
-        .find(sc => !foundry.utils.isObjectEmpty(sc)))
+        .find(sc => !foundry.utils.isEmpty(sc)))
         .reduce((types, type) => { types[type] = type; return types; }, {}),
       compatibilityWarningsData,
     };
